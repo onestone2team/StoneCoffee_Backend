@@ -14,4 +14,5 @@ class DirectorInquiry(APIView):
 
 
 class ChangeUserInfo(APIView):
-    pass
+    def put(self, request):
+        pass
