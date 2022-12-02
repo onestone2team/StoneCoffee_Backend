@@ -31,9 +31,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class ProductDetailSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    # user = serializers.SerializerMethodField()
     # comments_set = CommentsSerializer(many=True)
-    category = serializers.SerializerMethodField()
+    # category = serializers.SerializerMethodField()
     
     def get_user(self, obj):
         return obj.user.email
