@@ -23,7 +23,6 @@ class MyUserManager(BaseUserManager):
             profilename=profilename
             # profilename=profilename,
         )
-
         instance.set_password(password)
         instance.save(using=self._db)
         return instance
@@ -47,7 +46,7 @@ class UserModel(AbstractBaseUser):
     email = models.EmailField('이메일', unique=True, error_messages={"unique":"이미 사용중인 이메일입니다"})
     password = models.CharField('비밀번호',max_length=30)
     profile = models.ImageField('프로필 사진',upload_to='%y/%m/', default='basic_profile/guest.png')
-    profilename = models.CharField('회원이름',max_length=50, min_lenhth=5, unique=True, error_messages={"unique":"profilename은 필수항목입니다"})
+    profilename = models.CharField('회원이름',max_length=50, unique=True, error_messages={"unique":"profilename 이미 사용중인 이름입니다"})
     address = models.TextField('배송지',blank=True, default='-')
     phone = models.CharField('연락처',max_length=30,blank=True, default='-')
     is_active = models.BooleanField(default=True)
