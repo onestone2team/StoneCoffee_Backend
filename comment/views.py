@@ -1,43 +1,39 @@
 from rest_framework.views import APIView
+from .models import Comment
+from django.db.models import Q
+from rest_framework.response import Response
+from rest_framework import status
 
+#댓글 조회
+class CommentView(APIView):
+    def get(self, request):
+       pass
+    
+#댓글 추가
+class CommentCreateView(APIView):
+    def post(self, request):
+        pass
 
-
+#댓글 수정 및 삭제
 class CommentDetailView(APIView):
-    def get(self, request):
+    def put(self, request):
         pass
-    
-
-class AddCommentView(APIView):
-    def get(self, request):
+    def delete(self, request):
         pass
 
-
-class PutCommentView(APIView):
-    def get(self, request):
-        pass
-
-
-class DeleteCommentView(APIView):
-    def get(self, request):
-        pass
-
-
+#좋아요
 class CommentLikeView(APIView):
-    
-    def get(self, request):
+    def post(self, request):
+        pass
+
+#대댓글 추가
+class NestedCommenCreatetView(APIView):
+    def post(self, request):
         pass
 
 
-class AddCommentView(APIView):
-    def get(self, request):
+class NestedCommentDetailView(APIView):
+    def put(self, request):
         pass
-
-
-class PutCommentView(APIView):
-    def get(self, request):
-        pass
-
-
-class DeleteCommentView(APIView):
-    def get(self, request):
+    def delete(self, request):
         pass
