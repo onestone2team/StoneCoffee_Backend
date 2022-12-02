@@ -14,11 +14,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField()
-
-    def get_user(self, obj):
-        return obj.user.email
-
+    # user = serializers.SerializerMethodField(
     class Meta:
         model = Product
         fields = "__all__"

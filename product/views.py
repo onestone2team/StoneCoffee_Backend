@@ -32,12 +32,12 @@ class MainTypeView(APIView):
         return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
     
 class ProductCreateView(APIView):
-    # permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAuthenticated]
 
     def post(self, request):
         serializer = ProductCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user_id=request.user.id)
+            serializer.save()
             return Response({"data": serializer.data, "message": "생성이 완료되었습니다"}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -52,13 +52,13 @@ class ProductView(APIView):
     
     
 class ProductLikeView(APIView):
-    # permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAuthenticated]
 
     def post(self, request, product_id):
         like_list = get_object_or_404(Product, id=product_id)
         if request.user in like_list.like.all():
             like_list.like.remove(request.user)
-            return Response({"message":"북마크에 삭제되었습니다"}, status=status.HTTP_200_OK)
+            return Response({"message":"장바구니에 삭제되었습니다"}, status=status.HTTP_200_OK)
         else:
             like_list.like.add(request.user)
-            return Response({"message":"북마크에 추가하였습니다"}, status=status.HTTP_202_ACCEPTED)
+            return Response({"message":"장바구니에 추가하였습니다"}, status=status.HTTP_202_ACCEPTED)
