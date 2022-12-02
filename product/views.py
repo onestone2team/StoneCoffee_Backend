@@ -11,20 +11,20 @@ from django.db.models import Q
 # Create your views here.
 
 class MainTypeView(APIView):
-    def get(self, request):
+    def get(self, request,type_id):
         pagination = PageNumberPagination()
         pagination.page_size = 9
         pagination.page_query_param = "page"
-        products = Product.objects.filter(hide_option=0).order_by("-created_at")
+        products = Product.objects.filter(type=type_id).order_by("id")
         print(request)
-        if request == 0:
-            products = Product.objects.filter(category_id=0).order_by("-created_at")
+        print(type_id)
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p, many=True)
-        return Response({"data": serializer.data, "max_page": len(products)//9 + 1,"message": ""}, status=status.HTTP_200_OK,)
+        print(serializer.data)
+        return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
     
 class ProductCreateView(APIView):
-    permission_classes=[permissions.IsAuthenticated]
+    # permission_classes=[permissions.IsAuthenticated]
 
     def post(self, request):
         serializer = ProductCreateSerializer(data=request.data)

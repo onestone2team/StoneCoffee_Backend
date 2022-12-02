@@ -4,7 +4,7 @@ from product.models import Product, Category
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    # user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
         return obj.user.email
@@ -14,14 +14,14 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    # user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
         return obj.user.email
 
     class Meta:
         model = Product
-        fields = ("content","title","price","aroma_grade","sweet_grade","acidity_grade","body_grade","_grade","type","image")
+        fields = "__all__"
     
     
     
