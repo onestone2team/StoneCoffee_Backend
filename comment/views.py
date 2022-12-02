@@ -1,19 +1,22 @@
 from rest_framework.views import APIView
 from .models import Comment
-from .serializers import CommentSerializer
+from .serializers import CommentSerializer, CommentCreateSerializer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 
-#댓글 조회
 
-    
-    
 #댓글 추가
 class CommentCreateView(APIView):
-    def post(self, request):
-        pass
+    def post(self, request, product_id):
+        serializer = CommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response({"data":serializer.data,"message":"댓글 등록 완료"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"errors":serializer.errors,"message":"댓글 등록 실패"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 #댓글 조회,수정 및 삭제
 class CommentDetailView(APIView):
