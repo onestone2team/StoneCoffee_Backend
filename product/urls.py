@@ -5,7 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
     # 홈페이지 간단한 소개
-    path('',),
+    # path('',views),
     # 카테고리 선택 (type= 0(coffeebean),1=(goods),2=(coffeemachine))
     path('<int:type_id>/', views.MainTypeView.as_view()),
     # 작성은 admin만 가능

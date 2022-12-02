@@ -7,7 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('/',include("user.urls")),
     path('/',include("director.urls")),
-    path('/',include("product.urls")),
+    path('product/',include("product.urls")),
     path('/',include("comment.urls")),
     path('/',include("mypage.urls")),
     path('/',include("survey.urls")),
