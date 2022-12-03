@@ -10,4 +10,4 @@ class MyOrderListSerializer(serializers.ModelSerializer):
 class UserOrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ("user", "product_name", "order_price", )
+        exclude = ("product_image", "user", "product")

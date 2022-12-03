@@ -46,7 +46,6 @@ class Migration(migrations.Migration):
                 ('weight', models.IntegerField(verbose_name='상품 중량')),
                 ('product_image', models.ImageField(upload_to='%y/%m/')),
                 ('receiver', models.CharField(max_length=50)),
-                ('payment_num', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='order.payment', unique=True)),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.product')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

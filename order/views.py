@@ -15,9 +15,9 @@ class MyOrderListView(APIView):
 
     def post(self, request, product_id):
         product = Product.objects.get(id=product_id)
-        serializer = UserOrderCreateSerializer(data=request.data, many=True)
+        serializer = UserOrderCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(order_price=product.price, product_name=product.name, product_image=product.image, user_name=request.user)
+            serializer.save(user_id=request.user.id, user_name=request.user, product_id=product_id, order_price=product.price, product_name=product.name, product_image=product.image)
             return Response({"message":serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
