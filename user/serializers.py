@@ -25,7 +25,10 @@ class SignUpSerializer(serializers.ModelSerializer):
             if valid_email == False:
                 raise serializers.ValidationError({"message":"이메일 형식이 아닙니다!"})
 
-        if attrs["password"].replace(" ", "") != "" and attrs["password_check"].replace(" ", "") != "":
+        if attrs["password"].replace(" ", "") =="" or attrs["password_check"].replace(" ", "") == "":
+            raise serializers.ValidationError({"message":"비밀번호는 공백일 수 없습니다!"})
+
+        if attrs["password"] != "" and attrs["password_check"] != "":
             valid_password = password_vaildator(attrs["password"], attrs["password_check"])
             valid_password2 = password_check_validator(attrs["password"], attrs["password_check"])
 
@@ -34,12 +37,8 @@ class SignUpSerializer(serializers.ModelSerializer):
             elif valid_password2 == False:
                 raise serializers.ValidationError({"message":"비밀번호가 다릅니다"})
 
-        if attrs["password"].replace(" ", "") =="" or attrs["password_check"].replace(" ", "") == "":
-            raise serializers.ValidationError({"message":"비밀번호는 공백일 수 없습니다!"})
-
         if attrs["profilename"]:
             valid_profilename = profile_name_validator(attrs["profilename"])
-            print(valid_profilename)
             if valid_profilename == False:
                 raise serializers.ValidationError({"message":"프로필 이름은 4글자 이상, 특수문자는 _ 만 가능합니다"})
 

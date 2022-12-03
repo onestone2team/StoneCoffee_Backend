@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('like', models.BooleanField()),
                 ('type', models.IntegerField()),
                 ('image', models.ImageField(upload_to='product_image')),
-                ('Catagory_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='product.category')),
+                ('Catagory_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.category')),
             ],
         ),
     ]

@@ -27,5 +27,5 @@ return_items = item_based_collab['user'].sort_values(ascending=True)[:4].index.t
 
 return_items.remove('user')
 
-print(return_items)
+
 

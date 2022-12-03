@@ -28,11 +28,10 @@ class MainTypeView(APIView):
         products = Product.objects.filter(type=type_id).order_by("id")
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p, many=True)
-        print(serializer.data)
         return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
     
 class ProductCreateView(APIView):
-    permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAdminUser]
 
     def post(self, request):
         serializer = ProductCreateSerializer(data=request.data)
