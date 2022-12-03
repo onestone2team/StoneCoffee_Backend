@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from user.serializers import ChangeUserInfoSerializer
 from user.models import UserModel
 from rest_framework import status
+from order.models import Order
+from order.serializers import MyOrderListSerializer
+from django.db.models import Q
 # Create your views here.
 
 #사용자 문의
@@ -35,3 +38,10 @@ class ChangeUserInfo(APIView):
             return Response({"data":serializer.data, "message":"변경이 완료되었습니다!"}, status=status.HTTP_200_OK)
         else:
             return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class MyOrderListView(APIView):
+
+    def get(self, request):
+        orders = Order.objects.filter(user_id=request.user.id)
+        serializer = MyOrderListSerializer(orders, many=True)
+        return Response({"data":serializer.data}, status=status.HTTP_200_OK)
