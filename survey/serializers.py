@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Guest
+from .models import Survey
 
-class GuestIpSerializer(serializers.ModelSerializer):
+class SurveySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Guest
+        model = Survey
         fields = "__all__"
