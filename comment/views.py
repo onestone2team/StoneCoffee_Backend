@@ -51,7 +51,7 @@ class CommentLikeView(APIView):
 #대댓글 추가
 class NestedCommentCreatetView(APIView):
     def post(self, request, product_id, comment_id):
-        serializer = NestedCommentCreateSerializer(data=request.data)
+        serializer = NestedCommentCreateSerializer(data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save(product_id=product_id, comment_id=comment_id, user=request.user)
             return Response({"data":serializer.data,"message":"대댓글 등록 완료"}, status=status.HTTP_201_CREATED)
@@ -62,7 +62,7 @@ class NestedCommentCreatetView(APIView):
 class NestedCommentDetailView(APIView):
     def put(self, request, product_id, comment_id, nestedcomment_id):
         nested_comment = get_object_or_404(Nested_Comment, id=comment_id)
-        serializer = NestedCommentCreateSerializer(nested_comment, data=request.data)
+        serializer = NestedCommentCreateSerializer(nested_comment, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save(id=nestedcomment_id, product_id=product_id, comment_id=comment_id, user=request.user)
             return Response({"message": "해당 대댓글이 수정되었습니다.", "data": serializer.data}, status=status.HTTP_201_CREATED)
