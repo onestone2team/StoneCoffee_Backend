@@ -2,8 +2,6 @@ from django.urls import path
 from . import views
 
 
-app_name = 'comment'
-
 urlpatterns = [
     # 댓글
     path('<int:product_id>/comment/',views.CommentCreateView.as_view(), name='create_comment'),

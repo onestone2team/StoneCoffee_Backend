@@ -10,10 +10,10 @@ from rest_framework.generics import get_object_or_404
 #댓글 추가
 class CommentCreateView(APIView):
     def post(self, request, product_id):
+        print(request.data)
         serializer = CommentCreateSerializer(data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
-            # serializer.save(user=request.user) #이게 원래꺼 에러나서 빼뚬
+            serializer.save(product_id=product_id, user=request.user)
             return Response({"data":serializer.data,"message":"댓글 등록 완료"}, status=status.HTTP_201_CREATED)
         else:
             return Response({"errors":serializer.errors,"message":"댓글 등록 실패"}, status=status.HTTP_400_BAD_REQUEST)

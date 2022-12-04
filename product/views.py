@@ -17,7 +17,6 @@ class MainpageView(APIView):
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p,many=True)
         return Response({"data":serializer.data,"message": "메인페이지 불러오기 성공"}, status=status.HTTP_201_CREATED)
-        
     
     
 class MainTypeView(APIView):
