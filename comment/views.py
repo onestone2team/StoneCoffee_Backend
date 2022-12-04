@@ -10,7 +10,6 @@ from rest_framework.generics import get_object_or_404
 #댓글 추가
 class CommentCreateView(APIView):
     def post(self, request, product_id):
-        print(request.data)
         serializer = CommentCreateSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(product_id=product_id, user=request.user)
@@ -26,7 +25,7 @@ class CommentDetailView(APIView):
        serializer = CommentSerializer(comment)
        return Response(serializer.data, status=status.HTTP_200_OK)
     def put(self, request, product_id, comment_id):
-        comment = get_object_or_404(Comment, id=comment_id)# 이게 또 들어가는게 맞나 request.data에 다 들어가는게 아닌가??? 12/3)
+        comment = get_object_or_404(Comment, id=comment_id)
         serializer = CommentCreateSerializer(comment, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -34,13 +33,21 @@ class CommentDetailView(APIView):
         else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request):
-        pass
+    def delete(self, request, product_id, comment_id ):
+        comment = Comment.objects.filter(Q(user_id=request.user.id) & Q(product_id=product_id) & Q(id=comment_id))
+        comment.delete()
+        return Response({"message": "해당 댓글이 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
 
 #좋아요
 class CommentLikeView(APIView):
-    def post(self, request):
-        pass
+    def post(self, request, product_id, comment_id):
+        comment_list = get_object_or_404(Comment, id=comment_id, product_id= product_id)
+        if request.user in comment_list.like.all():
+            comment_list.like.remove(request.user)
+            return Response({"message":"좋아요를 취소했습니다"}, status=status.HTTP_200_OK)
+        else:
+            comment_list.like.add(request.user)
+            return Response({"message":"이 댓글을 좋아합니다"}, status=status.HTTP_201_CREATED)
 
 #대댓글 추가
 class NestedCommentCreatetView(APIView):

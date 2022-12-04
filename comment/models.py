@@ -10,7 +10,7 @@ class Comment(models.Model):
     image = models.ImageField(blank=True, upload_to='comment')
     comment = models.TextField()
     point = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
-    like = models.ManyToManyField(Product, related_name="likes")
+    like = models.ManyToManyField(UserModel, related_name="likes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
