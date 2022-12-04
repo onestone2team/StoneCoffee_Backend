@@ -76,6 +76,16 @@ class ProductCartList(APIView):
         serializer = CartSaveSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user= request.user, product_id=product_id)
-            return Response({"message":"장바구니에 추가하였습니다", "data":serializer.data}, status=status.HTTP_202_ACCEPTED)
+            return Response({"message":"장바구니에 추가하였습니다", "data":serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        cart_id = request.GET.get('cart_id', None)
+        cart = Cart.objects.get(id = cart_id)
+        if cart:
+            cart.delete()
+            return Response({"message":"장바구니에서 삭제되었습니다."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message":"해당 물품은 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
+     
