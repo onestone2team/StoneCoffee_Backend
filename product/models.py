@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import UserModel
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -14,6 +15,6 @@ class Product(models.Model):
     sweet_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     acidity_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     body_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
-    like=models.BooleanField()
+    like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
     type=models.IntegerField()
     image=models.ImageField(upload_to='product_image')
