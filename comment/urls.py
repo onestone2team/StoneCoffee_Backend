@@ -10,8 +10,8 @@ urlpatterns = [
     path('<int:product_id>/comment/<int:comment_id>/delete/',views.CommentDetailView.as_view(), name='delete_comment'),
     path('<int:product_id>/comment/<int:comment_id>/like/',views.CommentLikeView.as_view(), name='like_comment'),
     # 대댓글
-    path('<int:product_id>/comment/<int:comment_id>/',views.NestedCommentCreatetView.as_view(), name='create_nestedcomment'),
-    path('<int:product_id>/comment/<int:comment_id>/<int:nestedcomment_id>/',views.NestedCommentDetailView.as_view(), name='put_nestedcomment'),
-    path('<int:product_id>/comment/<int:comment_id>/<int:nestedcomment_id>/delete/',views.NestedCommentDetailView.as_view(), name='delete_nestedcomment'),
+    path('nested/<int:product_id>/comment/<int:comment_id>/',views.NestedCommentCreatetView.as_view(), name='create_nestedcomment'),
+    path('nested/<int:product_id>/comment/<int:comment_id>/<int:nestedcomment_id>/',views.NestedCommentDetailView.as_view(), name='put_nestedcomment'),
+    path('nested/<int:product_id>/comment/<int:comment_id>/<int:nestedcomment_id>/delete/',views.NestedCommentDetailView.as_view(), name='delete_nestedcomment'),
 
 ]
