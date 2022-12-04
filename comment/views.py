@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from .models import Comment
+from .models import Comment, Nested_Comment
 from .serializers import CommentSerializer, CommentCreateSerializer, NestedCommentSerializer, NestedCommentCreateSerializer
 from django.db.models import Q
 from rest_framework.response import Response
@@ -61,7 +61,7 @@ class NestedCommentCreatetView(APIView):
 #대댓글 수정 및 삭제
 class NestedCommentDetailView(APIView):
     def put(self, request, product_id, comment_id, nestedcomment_id):
-        nested_comment = get_object_or_404(Comment, id=comment_id)
+        nested_comment = get_object_or_404(Nested_Comment, id=comment_id)
         serializer = NestedCommentCreateSerializer(nested_comment, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(id=nestedcomment_id, product_id=product_id, comment_id=comment_id, user=request.user)
@@ -69,6 +69,6 @@ class NestedCommentDetailView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def delete(self, request, product_id, comment_id, nestedcomment_id):
-        nested_comment = Comment.objects.filter(Q(id=nestedcomment_id)&Q(product_id=product_id)&Q(comment_id=comment_id)&Q(user_id=request.user.id) )
+        nested_comment = Nested_Comment.objects.filter(Q(id=nestedcomment_id)&Q(product_id=product_id)&Q(comment_id=comment_id)&Q(user_id=request.user.id))
         nested_comment.delete()
         return Response({"message": "해당 대댓글이 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
