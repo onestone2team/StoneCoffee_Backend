@@ -11,7 +11,7 @@ from product.models import Product
 # Create your views here.
 
 
-class MyOrderListView(APIView):
+class UserOrderView(APIView):
 
     def post(self, request, product_id):
         product = Product.objects.get(id=product_id)
@@ -21,3 +21,4 @@ class MyOrderListView(APIView):
             return Response({"message":serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+

@@ -10,4 +10,5 @@ class MyOrderListSerializer(serializers.ModelSerializer):
 class UserOrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
+
         exclude = ("product_image", "user", "product")

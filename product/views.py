@@ -17,9 +17,9 @@ class MainpageView(APIView):
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p,many=True)
         return Response({"data":serializer.data,"message": "메인페이지 불러오기 성공"}, status=status.HTTP_201_CREATED)
-        
-    
-    
+
+
+
 class MainTypeView(APIView):
     def get(self, request,type_id):
         pagination = PageNumberPagination()
@@ -29,7 +29,7 @@ class MainTypeView(APIView):
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p, many=True)
         return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
-    
+
 class ProductCreateView(APIView):
     permission_classes=[permissions.IsAdminUser]
 
@@ -48,8 +48,8 @@ class ProductView(APIView):
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
+
+
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
 
