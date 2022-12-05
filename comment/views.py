@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from .models import Comment, Nested_Comment
-from .serializers import CommentSerializer, CommentCreateSerializer, NestedCommentSerializer, NestedCommentCreateSerializer
+from .serializers import CommentSerializer, CommentCreateSerializer, NestedCommentCreateSerializer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,14 +10,18 @@ from rest_framework.generics import get_object_or_404
 #댓글 추가
 class CommentCreateView(APIView):
     def post(self, request, product_id):
-        comment = Comment.objects.filter()
-        serializer = CommentCreateSerializer(data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save(product_id=product_id, user=request.user)
-            return Response({"data":serializer.data,"message":"댓글이 등록되었습니다."}, status=status.HTTP_201_CREATED)
+        # comment = get_object_or_404(Comment, product_id=product_id, user_id=request.user.id)
+        comment = Comment.objects.filter(Q(product_id=product_id)&Q(user_id=request.user.id))
+        print(comment)
+        if comment.count()<1:
+            serializer = CommentCreateSerializer(data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save(product_id=product_id, user=request.user)
+                return Response({"data":serializer.data,"message":"댓글이 등록되었습니다."}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"errors":serializer.errors,"message":"댓글이 정상적으로 등록되지 않았습니다. 다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"errors":serializer.errors,"message":"댓글이 정상적으로 등록되지 않았습니다. 다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({"message":"댓글은 게시물당 하나씩만 등록할 수 있습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
 #댓글 및 대댓글 조회, 댓글 수정 및 삭제
 class CommentDetailView(APIView):
