@@ -12,14 +12,13 @@ class Category(models.Model):
 class Product(models.Model):
     Catagory_id=models.ForeignKey(Category, on_delete=models.CASCADE)
     content=models.TextField()
-    name=models.CharField(max_length=50)
+    product_name=models.CharField(max_length=50)
     price=models.IntegerField()
     aroma_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     sweet_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     acidity_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     body_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
-    type=models.IntegerField()
     image=models.ImageField(upload_to='product_image')
 
 class Cart(models.Model):
@@ -27,3 +26,5 @@ class Cart(models.Model):
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
     weight=models.CharField(max_length=50)
     count=models.IntegerField()
+    price = models.IntegerField()
+    product_image = models.ImageField(upload_to='cart_image')

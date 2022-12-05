@@ -8,7 +8,6 @@ from order.models import Order
 from order.serializers import MyOrderListSerializer
 from django.db.models import Q
 from mypage.serializers import MyPaymentListSerializer
-from django.db.models.sql.query import Query
 from order.models import Payment
 
 # Create your views here.
@@ -75,16 +74,3 @@ class UserPaymentView(APIView):
         setattr(list_payment, "total_price", str(total_price))
         list_payment.save()
         return Response(status=status.HTTP_200_OK)
-
-
-
-
-
-
-
-        # if serializer.is_valid():
-        #     print(serializer.data)
-        #     serializer.save()
-        #     return Response({"data":serializer.data}, status=status.HTTP_200_OK)
-        # else:
-        #     return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

@@ -6,24 +6,18 @@ from product.models import Product
 
 class Payment(models.Model):
 
-    product_name = models.TextField(blank=True ,null=True)
-    order_price = models.TextField(blank=True ,null=True)
-    count = models.TextField(blank=True ,null=True)
+    user = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING)
     created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
-    status = models.TextField(blank=True ,null=True)
     user_name = models.TextField(blank=True ,null=True)
     user_address = models.TextField(blank=True ,null=True)
     user_phone = models.TextField(blank=True ,null=True)
-    weight = models.TextField(blank=True ,null=True)
-    receiver = models.TextField(blank=True ,null=True)
     total_price = models.TextField(blank=True ,null=True)
 
 class Order(models.Model):
 
     user = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
-    # payment_num = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
+    payment_num = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
     product_name = models.CharField(max_length=50, blank=True)
     order_price = models.IntegerField(blank=True)
     count = models.IntegerField()

@@ -31,8 +31,4 @@ def recommend_start(Aroma, Acidity, Sweetness, Balance):
 
     return return_items
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 85acd5b6682cac49d30aef8ec9b3cf8e2172b26a
 

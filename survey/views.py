@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-
-=======
 from .models import Survey
 from .serializers import SurveySerializer
 from .machine.recommend import recommend_start
->>>>>>> 85acd5b6682cac49d30aef8ec9b3cf8e2172b26a
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
