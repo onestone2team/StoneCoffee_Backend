@@ -62,10 +62,10 @@ class NestedCommentCreatetView(APIView):
 #대댓글 수정 및 삭제
 class NestedCommentDetailView(APIView):
     def put(self, request, product_id, comment_id, nestedcomment_id):
-        nested_comment = get_object_or_404(Nested_Comment, id=nestedcomment_id) #여기 원래 커멘트 id였음 확인필요 #1
+        nested_comment = get_object_or_404(Nested_Comment, id=nestedcomment_id, product_id=product_id, comment_id=comment_id)
         serializer = NestedCommentCreateSerializer(nested_comment, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(id=nestedcomment_id, product_id=product_id, comment_id=comment_id, user=request.user)
+            serializer.save()
             return Response({"message": "해당 대댓글이 수정되었습니다.", "data": serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
