@@ -10,6 +10,7 @@ from rest_framework.generics import get_object_or_404
 #댓글 추가
 class CommentCreateView(APIView):
     def post(self, request, product_id):
+        comment = Comment.objects.filter()
         serializer = CommentCreateSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(product_id=product_id, user=request.user)
@@ -25,7 +26,7 @@ class CommentDetailView(APIView):
        serializer = CommentSerializer(comment)
        return Response(serializer.data, status=status.HTTP_200_OK)
     def put(self, request, product_id, comment_id):
-        comment = get_object_or_404(Comment, id=comment_id)
+        comment = get_object_or_404(Comment, id=comment_id, product_id= product_id)
         serializer = CommentCreateSerializer(comment, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -61,7 +62,7 @@ class NestedCommentCreatetView(APIView):
 #대댓글 수정 및 삭제
 class NestedCommentDetailView(APIView):
     def put(self, request, product_id, comment_id, nestedcomment_id):
-        nested_comment = get_object_or_404(Nested_Comment, id=comment_id)
+        nested_comment = get_object_or_404(Nested_Comment, id=nestedcomment_id) #여기 원래 커멘트 id였음 확인필요 #1
         serializer = NestedCommentCreateSerializer(nested_comment, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save(id=nestedcomment_id, product_id=product_id, comment_id=comment_id, user=request.user)
