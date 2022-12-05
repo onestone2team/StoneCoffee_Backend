@@ -13,7 +13,8 @@ urlpatterns = [
     # # 게시글(제품) 조회
     path('<int:product_id>/view/',views.ProductView.as_view()),
     # 게시글 좋아요
-    path('<int:product_id>/like/',views.ProductLikeView.as_view())
-    
+    path('<int:product_id>/like/',views.ProductLikeView.as_view()),
+    # 게시글 장바구니
+    path('order/',views.ProductCartList.as_view())
 ]
 

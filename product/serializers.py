@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Product, Category
+from product.models import Product, Category, Cart
 
 
 
@@ -41,3 +41,25 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Product
         fields = "__all__"
         
+class ProductDetailViewSerializer(serializers.ModelSerializer):
+    Catagory_id = serializers.SerializerMethodField()
+
+    def get_Catagory_id(self, obj):
+        return obj.Catagory_id.type
+
+    class Meta:
+        model = Product
+        fields = ("id","name","price","image","Catagory_id")
+
+class CartSaveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Cart
+        fields = ("weight", "count")
+
+class CartViewSerializer(serializers.ModelSerializer):
+    product = ProductDetailViewSerializer()
+
+    class Meta:
+        model = Cart
+        fields = ("id","product", "weight", "count")
