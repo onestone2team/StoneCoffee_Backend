@@ -8,7 +8,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from product.permissions import IsAdminOrAuthenticatedOrReadOnly,DeletePermissition
 from django.db.models import Q
-from django.forms.models import model_to_dict
 # Create your views here.
 class MainpageView(APIView):
     def get(self,request):
@@ -66,26 +65,18 @@ class ProductCartList(APIView):
     permission_classes=[permissions.IsAuthenticated]
 
     def get(self, request):
-        print(request.data)
         products = Cart.objects.filter(user_id=request.user.id)
         serializer = CartViewSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)
-        count = request.GET.get('count', None)
-        num = -1
-        for i in product_id:
-            num +=1
-            product = model_to_dict(Product.objects.get(id=i))
-            product["product"] = int(i)
-            product["count"] = int(count[num])
-            serializer = CartSaveSerializer(data=product)
-            if serializer.is_valid():
-                serializer.save(user= request.user)
-                return Response({"message":"장바구니에 추가하였습니다", "data":serializer.data}, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = CartSaveSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user= request.user, product_id=product_id)
+            return Response({"message":"장바구니에 추가하였습니다", "data":serializer.data}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
         cart_id = request.GET.get('cart_id', None)
@@ -95,3 +86,4 @@ class ProductCartList(APIView):
             return Response({"message":"장바구니에서 삭제되었습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"message":"해당 물품은 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
+

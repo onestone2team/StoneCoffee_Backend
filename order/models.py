@@ -8,10 +8,7 @@ class Payment(models.Model):
 
     user = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING)
     created_at = models.DateField(auto_now_add=True)
-    user_name = models.TextField(blank=True ,null=True)
-    user_address = models.TextField(blank=True ,null=True)
-    user_phone = models.TextField(blank=True ,null=True)
-    total_price = models.TextField(blank=True ,null=True)
+    total_price = models.TextField()
 
 class Order(models.Model):
 

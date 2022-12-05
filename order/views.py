@@ -14,11 +14,17 @@ from django.forms.models import model_to_dict
 
 class UserOrderView(APIView):
 
+
     def post(self, request):
+        payments = Payment.objects.filter(user_id=request.user.id)
+        price_list = []
+        for payment in payments:
+            price_list.append(payment.price)
+        print(price_list)
+
         cart_id = request.GET.get("cart_id", None).split(",")
         for cart in cart_id:
             product = Cart.objects.get(id=cart)
-            print(product.product.price)
             product = model_to_dict(product)
             del(product["user"])
             product["order_price"] = product.pop("price")
