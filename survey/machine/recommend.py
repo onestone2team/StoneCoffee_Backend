@@ -2,30 +2,33 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances 
 
-user_data = {
-    "name_ko":["user"],
-    "Aroma": [4],
-    "Acidity": [3],
-    "Sweetness": [3],
-    "Bitterness": [2],
-    "Balance":[5]
-}
 
-usecols = ['name_ko','Aroma','Acidity','Sweetness','Bitterness','Balance']
-user_table = pd.DataFrame(user_data, columns=usecols)
+def recommend_start(Aroma, Acidity, Sweetness, Balance):
+    user_data = {
+        "name_ko":["user"],
+        "Aroma": [Aroma],
+        "Acidity": [Acidity],
+        "Sweetness": [Sweetness],
+        # "Bitterness": [Bitterness],
+        "Balance":[Balance]
+    }
 
-datas = pd.read_csv('survey/machine/data.csv', usecols=usecols)
-datas = pd.merge(datas, user_table, how='outer', on=None)
-df = datas.dropna()
+    usecols = ['name_ko','Aroma','Acidity','Sweetness', 'Balance']
+    user_table = pd.DataFrame(user_data, columns=usecols)
 
-title_table = pd.pivot_table(df, index = ['name_ko'])
+    datas = pd.read_csv('survey/machine/data.csv', usecols=usecols)
+    datas = pd.merge(datas, user_table, how='outer', on=None)
+    df = datas.dropna()
 
-item_based_collab = euclidean_distances(title_table, title_table)
-item_based_collab = pd.DataFrame(item_based_collab, index=title_table.index, columns=title_table.index)
+    title_table = pd.pivot_table(df, index = ['name_ko'])
 
-return_items = item_based_collab['user'].sort_values(ascending=True)[:4].index.tolist()
+    item_based_collab = euclidean_distances(title_table, title_table)
+    item_based_collab = pd.DataFrame(item_based_collab, index=title_table.index, columns=title_table.index)
 
-return_items.remove('user')
+    return_items = item_based_collab['user'].sort_values(ascending=True)[:4].index.tolist()
 
-print(return_items)
+    return_items.remove('user')
+
+    return return_items
+
 
