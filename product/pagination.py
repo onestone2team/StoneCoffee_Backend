@@ -14,7 +14,10 @@ class CustomResultsSetPagination(PageNumberPagination):
 
 def get_pagination_result(paginator, total_items):
     items_per_page = paginator.page_size
-    current_page = paginator.page.number
+    try:
+        current_page = paginator.page.number
+    except  AttributeError:
+        current_page = 1
     total_page = math.ceil(total_items/items_per_page)
 
     return {

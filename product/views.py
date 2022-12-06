@@ -26,11 +26,21 @@ class MainpageView(APIView):
     
     
 class MainTypeView(APIView):
-    def get(self, request,type_id):
-        products = Product.objects.filter(type=type_id).order_by("id")
+    def get(self, request):
+        category = int(request.GET.get('category_id', None))
+        
+        if category <= 3:
+            products = Product.objects.filter(category=category).order_by("-created_at")
+        elif category == 4:
+            products = Product.objects.filter(category=1).order_by("-body_grade")
+        elif category == 5:
+            products = Product.objects.filter(category=1).order_by("-acidity_grade")
+        else :
+            return Response({"message":"카테고리 넘버 이상"}, status=status.HTTP_400_BAD_REQUEST)
+
         paginator = PageNumberPagination()
+        paging = get_pagination_result(paginator, products.count())  
         p = paginator.paginate_queryset(queryset=products, request=request)
-        paging = get_pagination_result(paginator, products.count())
         serializer = ProductSerializer(p, many=True)
         return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
     
