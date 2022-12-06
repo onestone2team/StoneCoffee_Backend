@@ -6,14 +6,14 @@ from sklearn.metrics.pairwise import euclidean_distances
 def recommend_start(Aroma, Acidity, Sweetness, Balance):
     user_data = {
         "name_ko":["user"],
-        "Aroma": [Aroma],
-        "Acidity": [Acidity],
-        "Sweetness": [Sweetness],
+        "aroma_grade": [Aroma],
+        "acidity_grade": [Acidity],
+        "sweet_grade": [Sweetness],
         # "Bitterness": [Bitterness],
-        "Balance":[Balance]
+        "body_grade":[Balance]
     }
 
-    usecols = ['name_ko','Aroma','Acidity','Sweetness', 'Balance']
+    usecols = ['name_ko','aroma_grade','acidity_grade','sweet_grade', 'body_grade']
     user_table = pd.DataFrame(user_data, columns=usecols)
 
     datas = pd.read_csv('survey/machine/data.csv', usecols=usecols)
@@ -30,5 +30,4 @@ def recommend_start(Aroma, Acidity, Sweetness, Balance):
     return_items.remove('user')
 
     return return_items
-
 
