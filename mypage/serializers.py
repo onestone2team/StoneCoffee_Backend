@@ -7,7 +7,4 @@ class MyPaymentListSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
 
-class PaymentSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = Payment
-        fields = "__all__"
+

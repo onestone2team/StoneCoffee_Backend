@@ -11,4 +11,9 @@ class UserOrderCreateSerializer(serializers.ModelSerializer):
     product = ProductNameIdSerializer()
     class Meta:
         model = Order
-        exclude = ("product_image", "user")
+        exclude = "__all__"
+
+class PaymentSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"

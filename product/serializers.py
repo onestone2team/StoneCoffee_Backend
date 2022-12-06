@@ -54,7 +54,7 @@ class ProductDetailViewSerializer(serializers.ModelSerializer):
 class CartSaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
-        fields = ("product","count")
+        fields = ("product","count", "price")
 
 class CartViewSerializer(serializers.ModelSerializer):
     product = ProductDetailViewSerializer()

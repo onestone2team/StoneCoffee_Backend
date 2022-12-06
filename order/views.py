@@ -14,18 +14,16 @@ from django.forms.models import model_to_dict
 
 class UserOrderView(APIView):
 
-
     def post(self, request):
-        payments = Payment.objects.filter(user_id=request.user.id)
-        price_list = []
-        for payment in payments:
-            price_list.append(payment.price)
-        print(price_list)
+        payment = Payment()
+        payment.user_id = request.user.id
+        payment.save
 
         cart_id = request.GET.get("cart_id", None).split(",")
         for cart in cart_id:
             product = Cart.objects.get(id=cart)
             product = model_to_dict(product)
+            print(product)
             del(product["user"])
             product["order_price"] = product.pop("price")
             user_data = request.data
@@ -37,3 +35,9 @@ class UserOrderView(APIView):
                 return Response({"message":serializer.data}, status=status.HTTP_200_OK)
             else:
                 return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        payments = Payment.objects.filter(user_id=request.user.id)
+        price_list = []
+        for payment in payments:
+            price_list.append(payment.price)
+        print(price_list)
