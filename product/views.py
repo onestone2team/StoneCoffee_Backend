@@ -56,10 +56,10 @@ class ProductLikeView(APIView):
         like_list = get_object_or_404(Product, id=product_id)
         if request.user in like_list.like.all():
             like_list.like.remove(request.user)
-            return Response({"message":"장바구니에 삭제되었습니다"}, status=status.HTTP_200_OK)
+            return Response({"message":"좋아요 삭제되었습니다"}, status=status.HTTP_200_OK)
         else:
             like_list.like.add(request.user)
-            return Response({"message":"장바구니에 추가하였습니다"}, status=status.HTTP_202_ACCEPTED)
+            return Response({"message":"좋아요에 담겼습니다."}, status=status.HTTP_202_ACCEPTED)
 
 class ProductCartList(APIView):
     permission_classes=[permissions.IsAuthenticated]
@@ -67,7 +67,7 @@ class ProductCartList(APIView):
     def get(self, request):
         products = Cart.objects.filter(user_id=request.user.id)
         serializer = CartViewSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)     
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)

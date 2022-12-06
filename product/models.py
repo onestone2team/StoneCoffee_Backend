@@ -8,6 +8,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Category(models.Model):
     type=models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.type
 
 class Product(models.Model):
     Catagory_id=models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -21,8 +23,8 @@ class Product(models.Model):
     like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
     image=models.ImageField(upload_to='product_image')
 
-# class Like(models.Model):
-
+    def __str__(self):
+        return self.name
 
 class Cart(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
