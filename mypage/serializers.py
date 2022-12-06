@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from order.models import Order, Payment
+from order.models import Payment
 
 
 class MyPaymentListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Order
+        model = Payment
         fields = "__all__"
 
 

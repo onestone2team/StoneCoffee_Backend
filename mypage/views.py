@@ -6,10 +6,9 @@ from user.models import UserModel
 from rest_framework import status
 from order.models import Order
 from order.serializers import MyOrderListSerializer
-from django.db.models import Q
 from mypage.serializers import MyPaymentListSerializer
-from django.db.models.sql.query import Query
 from order.models import Payment
+from rest_framework import permissions
 
 # Create your views here.
 
@@ -44,6 +43,7 @@ class ChangeUserInfo(APIView):
             return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 class MyOrderListView(APIView):
+    permission_classes = (permissions.IsAuthenticated)
 
     def get(self, request):
         orders = Order.objects.filter(user_id=request.user.id)
@@ -52,6 +52,7 @@ class MyOrderListView(APIView):
 
 
 class UserPaymentView(APIView):
+    permission_classes = (permissions.IsAdminUser)
 
     def get(self, request):
         payments = Payment.objects.filter(user_id=request.user.id)

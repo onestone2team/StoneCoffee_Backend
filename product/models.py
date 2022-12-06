@@ -21,6 +21,9 @@ class Product(models.Model):
     like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
     image=models.ImageField(upload_to='product_image')
 
+# class Like(models.Model):
+
+
 class Cart(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     product=models.ForeignKey(Product, on_delete=models.CASCADE, blank=True)

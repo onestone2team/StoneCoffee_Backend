@@ -71,10 +71,11 @@ class ProductCartList(APIView):
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)
+        product_image = Product.objects.get(id=product_id)
         request.data["count"] = int(request.GET.get("count"))
         request.data["weight"] = int(request.GET.get("weight"))
         request.data["price"] = int(request.GET.get("price"))
-        print(request.data)
+        request.data["product_image"] = product_image.image
         serializer = CartSaveSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user= request.user, product_id=product_id)

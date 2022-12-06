@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_at', models.DateField(auto_now_add=True)),
-                ('total_price', models.TextField()),
+                ('total_price', models.TextField(blank=True, null=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             name='Order',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('product_name', models.CharField(blank=True, max_length=50)),
+                ('product_num', models.CharField(blank=True, max_length=50)),
                 ('order_price', models.IntegerField(blank=True)),
                 ('count', models.IntegerField()),
                 ('created_at', models.DateField(auto_now_add=True)),
