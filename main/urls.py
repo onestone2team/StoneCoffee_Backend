@@ -9,7 +9,7 @@ urlpatterns = [
     path('/',include("director.urls")),
     path('/',include("product.urls")),
     path('/',include("comment.urls")),
-    path('/',include("mypage.urls")),
+    path('',include("mypage.urls")),
     path('/',include("survey.urls")),
     path('/',include("order.urls")),
 ]

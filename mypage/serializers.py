@@ -13,3 +13,10 @@ class AddinquiryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inquiry
         fields = ("title", "content")
+        
+        
+class AddadminInquirySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Inquiry
+        fields = ("answer", "status")
