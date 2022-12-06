@@ -15,19 +15,20 @@ from django.db.models import Q
 class MainpageView(APIView):
 
     def get(self, request):
-        products = Product.objects.all().order_by('-created_at')
-        paginator = PageNumberPagination()
-        context = paginator.paginate_queryset(queryset=products, request= request)
-        paging = get_pagination_result(paginator, products.count())
-        serializer = ProductSerializer(context, many=True)
-        return Response({"data":serializer.data, "page":paging, "message": "메인페이지 불러오기 성공"}, status=status.HTTP_201_CREATED)
+        data = {}
+        category = ["coffee", "goods", "product"]
+        for i in range(3):
+            product = Product.objects.filter(category=i+1).order_by('-created_at')[:10]
+            serializer = ProductSerializer(product, many=True)
+            data[category[i]] = serializer.data
+
+        return Response({"data":data}, status=status.HTTP_201_CREATED)
     
     
 class MainTypeView(APIView):
     def get(self, request,type_id):
-        paginator = PageNumberPagination()
- 
         products = Product.objects.filter(type=type_id).order_by("id")
+        paginator = PageNumberPagination()
         p = paginator.paginate_queryset(queryset=products, request=request)
         paging = get_pagination_result(paginator, products.count())
         serializer = ProductSerializer(p, many=True)
