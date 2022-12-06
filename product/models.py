@@ -10,7 +10,7 @@ class Category(models.Model):
         return self.type
 
 class Product(models.Model):
-    Catagory_id=models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
+    category=models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
     content=models.TextField()
     name=models.CharField(max_length=50)
     price=models.IntegerField() 
@@ -19,8 +19,8 @@ class Product(models.Model):
     acidity_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     body_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
-    type=models.IntegerField()
     image=models.ImageField(upload_to='product_image')
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name

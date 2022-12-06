@@ -9,6 +9,7 @@ from rest_framework.pagination import PageNumberPagination
 from product.permissions import IsAdminOrAuthenticatedOrReadOnly,DeletePermissition
 from django.db.models import Q
 # Create your views here.
+
 class MainpageView(APIView):
     def get(self,request):
         pagination = PageNumberPagination()
@@ -27,7 +28,6 @@ class MainTypeView(APIView):
         products = Product.objects.filter(type=type_id).order_by("id")
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p, many=True)
-        print(serializer.data)
         return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
     
 class ProductCreateView(APIView):
