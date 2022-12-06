@@ -64,7 +64,29 @@ INSTALLED_APPS = [
     'survey',
     'corsheaders',
 ]
-
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5001',"http://*"]
+CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_ALL_ORIGINS= True
+CORS_ALLOW_HEADERS = [
+"accept",
+"accept-encoding",
+"authorization",
+"content-type",
+"dnt",
+"origin",
+"user-agent",
+"x-csrftoken",
+"x-requested-with",
+]
+CORS_ALLOW_METHODS = [
+"DELETE",
+"GET",
+"OPTIONS",
+"PATCH",
+"POST",
+"PUT",
+]
 REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -78,6 +100,7 @@ REST_FRAMEWORK = {
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
