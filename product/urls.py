@@ -11,7 +11,7 @@ urlpatterns = [
     # 작성은 admin만 가능
     path('create/',views.ProductCreateView.as_view()),
     # # 게시글(제품) 조회
-    path('<int:product_id>/view/',views.ProductView.as_view()),
+    path('detail/',views.ProductView.as_view()),
     # 게시글 좋아요
     path('<int:product_id>/like/',views.ProductLikeView.as_view()),
     # 게시글 장바구니

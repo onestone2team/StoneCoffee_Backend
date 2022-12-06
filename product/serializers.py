@@ -13,13 +13,17 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = "__all__"
 
+class ViewProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = ("id", "name", "price", "category", "image")
+
 class ProductCreateSerializer(serializers.ModelSerializer):
     # user = serializers.SerializerMethodField(
     class Meta:
         model = Product
         fields = "__all__"
-    
-    
     
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

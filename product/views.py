@@ -1,5 +1,5 @@
 from product.models import Product,Category, Cart
-from product.serializers import ProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer
+from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer
 from .pagination import PageNumberPagination, get_pagination_result
 from rest_framework import status, generics, permissions
 from rest_framework import pagination
@@ -19,7 +19,7 @@ class MainpageView(APIView):
         category = ["coffee", "goods", "product"]
         for i in range(3):
             product = Product.objects.filter(category=i+1).order_by('-created_at')[:10]
-            serializer = ProductSerializer(product, many=True)
+            serializer = ViewProductSerializer(product, many=True)
             data[category[i]] = serializer.data
 
         return Response({"data":data}, status=status.HTTP_201_CREATED)
@@ -41,7 +41,7 @@ class MainTypeView(APIView):
         paginator = PageNumberPagination()
         paging = get_pagination_result(paginator, products.count())  
         p = paginator.paginate_queryset(queryset=products, request=request)
-        serializer = ProductSerializer(p, many=True)
+        serializer = ViewProductSerializer(p, many=True)
         return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
     
 class ProductCreateView(APIView):
@@ -56,7 +56,9 @@ class ProductCreateView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProductView(APIView):
-    def get(self, request, product_id):
+    def get(self, request):
+        product_id = int(request.GET.get('product_id', None))
+
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
