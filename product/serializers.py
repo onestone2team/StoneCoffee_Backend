@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from product.models import Product, Category, Cart
-
-
+from comment.serializers import ViewCommentSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     # user = serializers.SerializerMethodField()
@@ -31,19 +30,11 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class ProductDetailSerializer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField()
-    # comments_set = CommentsSerializer(many=True)
-    # category = serializers.SerializerMethodField()
-    
-    def get_user(self, obj):
-        return obj.user.email
-    
-    def get_category(self, obj):
-        return obj.category.category_price
+    comment_set = ViewCommentSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ("id","name","content","price","image","like","aroma_grade","sweet_grade","acidity_grade","body_grade","comment_set")
         
 class ProductDetailViewSerializer(serializers.ModelSerializer):
     Catagory_id = serializers.SerializerMethodField()

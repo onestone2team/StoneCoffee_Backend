@@ -24,7 +24,6 @@ class MainpageView(APIView):
 
         return Response({"data":data}, status=status.HTTP_201_CREATED)
     
-    
 class MainTypeView(APIView):
     def get(self, request):
         category = int(request.GET.get('category_id', None))
@@ -58,10 +57,9 @@ class ProductCreateView(APIView):
 class ProductView(APIView):
     def get(self, request):
         product_id = int(request.GET.get('product_id', None))
-
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"products":serializer.data}, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]

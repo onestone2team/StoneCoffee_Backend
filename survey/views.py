@@ -27,7 +27,6 @@ class SurveyStart(APIView):
             product = get_object_or_404(Product, name = data[2])
             productserializer3 = ShowProductSerializer(product)
 
-
             return Response({"data": {"1":productserializer1.data,"2": productserializer2.data,"3": productserializer3.data}}, status=status.HTTP_200_OK)
         else:
             return Response({"message":"다시 시도해주세요"}, status=status.HTTP_400_BAD_REQUEST)
