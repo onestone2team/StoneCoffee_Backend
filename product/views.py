@@ -63,9 +63,9 @@ class ProductView(APIView):
         serializer = ProductDetailSerializer(product)
         # 추천 상품 불러오기
         rec_data = {}
-        rec_products = recommend_products(product.name)
+        rec_products = recommend_products(product.product_name)
         for name in rec_products:
-            product = get_object_or_404(Product, name=name)
+            product = get_object_or_404(Product, product_name=name)
             rec_serializer = ViewProductSerializer(product)
             rec_data[name] = rec_serializer.data
   

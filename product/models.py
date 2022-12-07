@@ -12,7 +12,7 @@ class Category(models.Model):
         return self.type
 
 class Product(models.Model):
-    Catagory_id=models.ForeignKey(Category, on_delete=models.CASCADE)
+    category=models.ForeignKey(Category, on_delete=models.CASCADE)
     content=models.TextField()
     product_name=models.CharField(max_length=50)
     price=models.IntegerField()
@@ -25,7 +25,7 @@ class Product(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.product_name
 
 class Cart(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)

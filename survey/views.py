@@ -20,11 +20,11 @@ class SurveyStart(APIView):
             Balance = serializer.data["body_grade"]
             data = recommend_start(Aroma, Acidity, Sweetness, Balance)
 
-            product = get_object_or_404(Product, name = data[0])
+            product = get_object_or_404(Product, product_name = data[0])
             productserializer1 = ShowProductSerializer(product)
-            product = get_object_or_404(Product, name = data[1])
+            product = get_object_or_404(Product, product_name = data[1])
             productserializer2 = ShowProductSerializer(product)
-            product = get_object_or_404(Product, name = data[2])
+            product = get_object_or_404(Product, product_name = data[2])
             productserializer3 = ShowProductSerializer(product)
 
             return Response({"data": {"1":productserializer1.data,"2": productserializer2.data,"3": productserializer3.data}}, status=status.HTTP_200_OK)
