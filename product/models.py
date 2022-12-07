@@ -20,12 +20,17 @@ class Product(models.Model):
     sweet_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     acidity_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     body_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
-    like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
+    like=models.ManyToManyField(UserModel, related_name = 'like', blank=True, through='LikeTage')
     image=models.ImageField(upload_to='product_image')
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.product_name
+
+class LikeTage(models.Model):
+    Product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Cart(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
