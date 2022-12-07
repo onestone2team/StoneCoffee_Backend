@@ -93,11 +93,8 @@ class ProductCartList(APIView):
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)
-        product_image = Product.objects.get(id=product_id)
-        request.data["count"] = int(request.GET.get("count"))
-        request.data["weight"] = int(request.GET.get("weight"))
-        request.data["price"] = int(request.GET.get("price"))
-        request.data["product_image"] = product_image.image
+        product = Product.objects.get(id=product_id)
+        request.data["product_image"] = product.image
         serializer = CartSaveSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user= request.user, product_id=product_id)
@@ -107,7 +104,7 @@ class ProductCartList(APIView):
 
     def delete(self, request):
         cart_id = request.GET.get('cart_id', None)
-        cart = Cart.objects.get(id = cart_id)
+        cart = Cart.objects.filter(id = cart_id)
         if cart:
             cart.delete()
             return Response({"message":"장바구니에서 삭제되었습니다."}, status=status.HTTP_200_OK)

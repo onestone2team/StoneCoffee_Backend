@@ -38,14 +38,14 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         
 
 class ProductDetailViewSerializer(serializers.ModelSerializer):
-    Catagory_id = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
 
-    def get_Catagory_id(self, obj):
-        return obj.Catagory_id.type
+    def get_category(self, obj):
+        return obj.category.type
 
     class Meta:
         model = Product
-        fields = ("id","product_name","price","image","Catagory_id")
+        fields = ("id","product_name","price","image","category")
 
 class CartSaveSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,7 +57,7 @@ class CartViewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = ("id","product", "weight", "count")
+        fields = ("id","product", "weight", "count", "price")
 
 class ProductNameIdSerializer(serializers.ModelSerializer):
     class Meta:
