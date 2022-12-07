@@ -27,11 +27,10 @@ class MainTypeView(APIView):
         products = Product.objects.filter(type=type_id).order_by("id")
         p = pagination.paginate_queryset(queryset=products, request=request)
         serializer = ProductSerializer(p, many=True)
-        print(serializer.data)
         return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
-    
+
 class ProductCreateView(APIView):
-    permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAdminUser]
 
     def post(self, request):
         serializer = ProductCreateSerializer(data=request.data)
@@ -48,8 +47,8 @@ class ProductView(APIView):
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
+
+
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
 
@@ -72,6 +71,11 @@ class ProductCartList(APIView):
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)
+        product_image = Product.objects.get(id=product_id)
+        request.data["count"] = int(request.GET.get("count"))
+        request.data["weight"] = int(request.GET.get("weight"))
+        request.data["price"] = int(request.GET.get("price"))
+        request.data["product_image"] = product_image.image
         serializer = CartSaveSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user= request.user, product_id=product_id)
@@ -87,4 +91,4 @@ class ProductCartList(APIView):
             return Response({"message":"장바구니에서 삭제되었습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"message":"해당 물품은 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
-     
+
