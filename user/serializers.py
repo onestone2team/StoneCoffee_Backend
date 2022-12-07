@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from user.models import UserModel
-from user.validators import email_validator, password_check_validator, password_vaildator, profile_name_validator, phone_validator
+from user.validators import email_validator, password_check_validator, password_vaildator, profile_name_validator, phone_validator, address_validator
 
 
 
@@ -25,21 +25,20 @@ class SignUpSerializer(serializers.ModelSerializer):
             if valid_email == False:
                 raise serializers.ValidationError({"message":"이메일 형식이 아닙니다!"})
 
-        if attrs["password"].replace(" ", "") != "" and attrs["password_check"].replace(" ", "") != "":
+        if attrs["password"].replace(" ", "") =="" or attrs["password_check"].replace(" ", "") == "":
+            raise serializers.ValidationError({"message":"비밀번호는 공백일 수 없습니다!"})
+
+        if attrs["password"] != "" and attrs["password_check"] != "":
             valid_password = password_vaildator(attrs["password"], attrs["password_check"])
             valid_password2 = password_check_validator(attrs["password"], attrs["password_check"])
 
             if valid_password == False:
-                raise serializers.ValidationError({"message":"비밀번호는 8자 이상, 특수문자를 하나 이상, 숫자를 하나 이상 포함해야 합니다!"})
+                raise serializers.ValidationError({"message":"비밀번호는 8자 이상, 특수문자(@!%*#?&)를 하나 이상, 숫자를 하나 이상 포함해야 합니다!"})
             elif valid_password2 == False:
                 raise serializers.ValidationError({"message":"비밀번호가 다릅니다"})
 
-        if attrs["password"].replace(" ", "") =="" or attrs["password_check"].replace(" ", "") == "":
-            raise serializers.ValidationError({"message":"비밀번호는 공백일 수 없습니다!"})
-
         if attrs["profilename"]:
             valid_profilename = profile_name_validator(attrs["profilename"])
-            print(valid_profilename)
             if valid_profilename == False:
                 raise serializers.ValidationError({"message":"프로필 이름은 4글자 이상, 특수문자는 _ 만 가능합니다"})
 
@@ -73,6 +72,11 @@ class ChangeUserInfoSerializer(serializers.ModelSerializer):
             elif valid_password2 == False:
                 raise serializers.ValidationError({"message":"비밀번호가 다릅니다"})
 
+        if attrs.get("address"):
+            valid_address = address_validator(attrs["address"])
+            if valid_address == False:
+                raise serializers.ValidationError({"message":"주소 형식이 올바르지 않습니다"})
+
         if attrs.get("profilename"):
             valid_profilename = profile_name_validator(attrs["profilename"])
             if valid_profilename == False:
@@ -99,3 +103,8 @@ class ChangeUserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ("profilename", "phone", "password", "profile", "password_check")
+
+class PaymentuserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = "__all__"

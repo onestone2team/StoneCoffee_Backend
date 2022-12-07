@@ -25,6 +25,7 @@ class MainpageView(APIView):
         return Response({"data":data}, status=status.HTTP_201_CREATED)
     
 class MainTypeView(APIView):
+
     def get(self, request):
         category = int(request.GET.get('category_id', None))
         
@@ -44,7 +45,7 @@ class MainTypeView(APIView):
         return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
     
 class ProductCreateView(APIView):
-    permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAdminUser]
 
     def post(self, request):
         serializer = ProductCreateSerializer(data=request.data)
@@ -83,6 +84,11 @@ class ProductCartList(APIView):
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)
+        product_image = Product.objects.get(id=product_id)
+        request.data["count"] = int(request.GET.get("count"))
+        request.data["weight"] = int(request.GET.get("weight"))
+        request.data["price"] = int(request.GET.get("price"))
+        request.data["product_image"] = product_image.image
         serializer = CartSaveSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user= request.user, product_id=product_id)
@@ -98,4 +104,4 @@ class ProductCartList(APIView):
             return Response({"message":"장바구니에서 삭제되었습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"message":"해당 물품은 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
-     
+

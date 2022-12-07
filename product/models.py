@@ -2,7 +2,9 @@ from django.db import models
 from user.models import UserModel
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-# Create your models here.
+
+
+
 class Category(models.Model):
     type=models.CharField(max_length=50)
 
@@ -10,10 +12,10 @@ class Category(models.Model):
         return self.type
 
 class Product(models.Model):
-    category=models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
+    Catagory_id=models.ForeignKey(Category, on_delete=models.CASCADE)
     content=models.TextField()
-    name=models.CharField(max_length=50)
-    price=models.IntegerField() 
+    product_name=models.CharField(max_length=50)
+    price=models.IntegerField()
     aroma_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     sweet_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     acidity_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
@@ -27,6 +29,8 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    product=models.ForeignKey(Product, on_delete=models.CASCADE)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, blank=True)
     weight=models.CharField(max_length=50)
     count=models.IntegerField()
+    price = models.IntegerField()
+    product_image = models.ImageField(upload_to='cart_image')
