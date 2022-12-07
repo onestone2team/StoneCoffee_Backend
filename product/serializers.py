@@ -36,6 +36,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Product
         fields = ("id","name","content","price","image","like","aroma_grade","sweet_grade","acidity_grade","body_grade","comment_set")
         
+
 class ProductDetailViewSerializer(serializers.ModelSerializer):
     Catagory_id = serializers.SerializerMethodField()
 

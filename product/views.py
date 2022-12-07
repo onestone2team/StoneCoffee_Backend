@@ -1,6 +1,7 @@
 from product.models import Product,Category, Cart
 from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer
 from .pagination import PageNumberPagination, get_pagination_result
+from machine.recommend import recommend_products
 from rest_framework import status, generics, permissions
 from rest_framework import pagination
 from rest_framework.views import APIView
@@ -60,7 +61,15 @@ class ProductView(APIView):
         product_id = int(request.GET.get('product_id', None))
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
-        return Response({"products":serializer.data}, status=status.HTTP_200_OK)
+        # 추천 상품 불러오기
+        rec_data = {}
+        rec_products = recommend_products(product.name)
+        for name in rec_products:
+            product = get_object_or_404(Product, name=name)
+            rec_serializer = ViewProductSerializer(product)
+            rec_data[name] = rec_serializer.data
+  
+        return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
