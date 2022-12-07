@@ -6,6 +6,7 @@ from user.serializers import ChangeUserInfoSerializer
 from mypage.serializers import InquiryListSerializer, AddinquiryListSerializer, AddadminInquirySerializer
 from user.models import UserModel
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 #사용자 문의
@@ -27,10 +28,23 @@ class AddinquiryList(APIView):
 
 #관리자 문의 페이지
 class AdminInquiry(APIView):
-    pass
+    def get(self, request):
+        inquiry = Inquiry.objects.all()
+        serializer = InquiryListSerializer(inquiry, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class AddadminInquiry(APIView):
-    pass
+    permission_classes=[IsAuthenticated]
+
+    
+    def put(self, request, Inquiry_id):
+        inquiry = Inquiry.objects.get(id=Inquiry_id)
+        serializer = AddadminInquirySerializer(inquiry,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChangeUserInfo(APIView):
