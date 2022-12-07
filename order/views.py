@@ -36,7 +36,7 @@ class UserOrderCreateView(APIView):
             data = payment_serializer.data
             payment_id = Payment.objects.filter(Q(total_price=data["total_price"]) & Q(created_at=data["created_at"]) & Q(user_id=request.user.id)).order_by("-id")
             product["payment_num"] = getattr(payment_id[0],"id")
-            product["product_num"] = product["product"]
+            product["product_name"] = product.product.product_name
             product["order_price"] = product.pop("price")
             for data in user_data:
                 product[f"{data}"] = user_data[f"{data}"]
