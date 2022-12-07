@@ -22,6 +22,7 @@ class Product(models.Model):
     body_grade=models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     like=models.ManyToManyField(UserModel, related_name = 'like', blank=True)
     image=models.ImageField(upload_to='product_image')
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name

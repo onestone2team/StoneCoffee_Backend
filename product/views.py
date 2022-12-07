@@ -1,34 +1,49 @@
-from rest_framework.views import APIView
 from product.models import Product,Category, Cart
-from product.serializers import ProductSerializer,ProductCreateSerializer,CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer
+from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer
+from .pagination import PageNumberPagination, get_pagination_result
+from rest_framework import status, generics, permissions
+from rest_framework import pagination
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import permissions
 from rest_framework.generics import get_object_or_404
-from rest_framework.pagination import PageNumberPagination
 from product.permissions import IsAdminOrAuthenticatedOrReadOnly,DeletePermissition
 from django.db.models import Q
 # Create your views here.
+
+
+
 class MainpageView(APIView):
-    def get(self,request):
-        pagination = PageNumberPagination()
-        products = Product.objects.order_by("?")
-        # "?"은 랜덤으로 나열하는 함수입니다.
-        p = pagination.paginate_queryset(queryset=products, request=request)
-        serializer = ProductSerializer(p,many=True)
-        return Response({"data":serializer.data,"message": "메인페이지 불러오기 성공"}, status=status.HTTP_201_CREATED)
-    
+
+    def get(self, request):
+        data = {}
+        category = ["coffee", "goods", "product"]
+        for i in range(3):
+            product = Product.objects.filter(category=i+1).order_by('-created_at')[:10]
+            serializer = ViewProductSerializer(product, many=True)
+            data[category[i]] = serializer.data
+
+        return Response({"data":data}, status=status.HTTP_201_CREATED)
     
 class MainTypeView(APIView):
-    def get(self, request,type_id):
-        pagination = PageNumberPagination()
-        pagination.page_size = 9
-        pagination.page_query_param = "page"
-        products = Product.objects.filter(type=type_id).order_by("id")
-        p = pagination.paginate_queryset(queryset=products, request=request)
-        serializer = ProductSerializer(p, many=True)
-        return Response({"data": serializer.data, "max_page": len(products)//9 + 1}, status=status.HTTP_200_OK,)
 
+    def get(self, request):
+        category = int(request.GET.get('category_id', None))
+        
+        if category <= 3:
+            products = Product.objects.filter(category=category).order_by("-created_at")
+        elif category == 4:
+            products = Product.objects.filter(category=1).order_by("-body_grade")
+        elif category == 5:
+            products = Product.objects.filter(category=1).order_by("-acidity_grade")
+        else :
+            return Response({"message":"카테고리 넘버 이상"}, status=status.HTTP_400_BAD_REQUEST)
+
+        paginator = PageNumberPagination()
+        paging = get_pagination_result(paginator, products.count())  
+        p = paginator.paginate_queryset(queryset=products, request=request)
+        serializer = ViewProductSerializer(p, many=True)
+        return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
+    
 class ProductCreateView(APIView):
     permission_classes=[permissions.IsAdminUser]
 
@@ -40,15 +55,13 @@ class ProductCreateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
 class ProductView(APIView):
-    def get(self, request, product_id):
+    def get(self, request):
+        product_id = int(request.GET.get('product_id', None))
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
+        return Response({"products":serializer.data}, status=status.HTTP_200_OK)
+    
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
 
