@@ -1,9 +1,12 @@
 from rest_framework.views import APIView
 from user.models import UserModel
+from mypage.models import Inquiry
 from rest_framework.response import Response
 from user.serializers import ChangeUserInfoSerializer
+from mypage.serializers import InquiryListSerializer, AddinquiryListSerializer, AddadminInquirySerializer
 from user.models import UserModel
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from order.models import Order
 from order.serializers import MyOrderListSerializer
 from mypage.serializers import MyPaymentListSerializer
@@ -14,12 +17,40 @@ from rest_framework import permissions
 
 #사용자 문의
 class InquiryList(APIView):
-    pass
+     def get(self, request):
+        inquiry = Inquiry.objects.all()
+        serializer = InquiryListSerializer(inquiry, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AddinquiryList(APIView):
+     def post(self, request, category_id, product_id):
+        serializer = AddinquiryListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(category_id=category_id, product_id=product_id, user_id=request.user.id)
+            return Response({"message": "문의가 등록되었습니다", "data": "serializer.data"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 
 #관리자 문의 페이지
-class DirectorInquiry(APIView):
-    pass
+class AdminInquiry(APIView):
+    def get(self, request):
+        inquiry = Inquiry.objects.all()
+        serializer = InquiryListSerializer(inquiry, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AddadminInquiry(APIView):
+    permission_classes=[IsAuthenticated]
+
+    
+    def put(self, request, Inquiry_id):
+        inquiry = Inquiry.objects.get(id=Inquiry_id)
+        serializer = AddadminInquirySerializer(inquiry,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChangeUserInfo(APIView):
