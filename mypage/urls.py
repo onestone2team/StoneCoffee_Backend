@@ -8,4 +8,6 @@ urlpatterns = [
     path('admin/inquiry/', views.AdminInquiry.as_view(), name='DirectorInquiry'),
     path('admin/inquiry/<int:Inquiry_id>/', views.AddadminInquiry.as_view(), name='AddadminInquiry'),
     path('changeuserinfo/', views.ChangeUserInfo.as_view(), name='change_user_info_view'),
+    path('myorderlist/', views.MyOrderListView.as_view(), name='change_user_info_view'),
+    path('mypayment/', views.UserPaymentView.as_view(), name="user_product_view"),
 ]
