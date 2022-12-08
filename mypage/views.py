@@ -56,7 +56,13 @@ class ViewBookmarkList(APIView):
         products = Product.objects.exclude(category_id=1) & Product.objects.filter(like=request.user.id).order_by('liketage')
         products_serializer = ViewProductSerializer(products, many=True)
         return Response({"coffee": coffees_serializer.data, "product":products_serializer.data}, status=status.HTTP_200_OK)
-
+#주문 리스트
+class MyOrderListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        orders = Order.objects.filter(user_id=request.user.id).order_by('-created_at')
+        serializer = MyOrderListSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 #사용자 문의
 class InquiryList(APIView):
      def get(self, request):
@@ -91,14 +97,6 @@ class AddadminInquiry(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class MyOrderListView(APIView):
-    permission_classes = (permissions.IsAuthenticated)
-
-    def get(self, request):
-        orders = Order.objects.filter(user_id=request.user.id)
-        serializer = MyOrderListSerializer(orders, many=True)
-        return Response({"data":serializer.data}, status=status.HTTP_200_OK)
 
 class UserPaymentView(APIView):
     permission_classes = (permissions.IsAdminUser)
