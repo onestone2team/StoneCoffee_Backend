@@ -15,7 +15,7 @@ class Order(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     payment_num = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
-    product_num = models.CharField(max_length=50, blank=True)
+    product_name = models.CharField(max_length=50, blank=True)
     order_price = models.IntegerField(blank=True)
     count = models.IntegerField()
     created_at = models.DateField(auto_now_add=True)

@@ -44,4 +44,3 @@ def address_validator(address):
     return True
 
 
-

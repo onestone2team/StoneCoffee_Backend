@@ -4,10 +4,6 @@ from product.models import Product, Category, Cart
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField()
-
-    def get_user(self, obj):
-        return obj.user.email
 
     class Meta:
         model = Product
@@ -18,29 +14,20 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-    
-    
-    
+
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
-        
+
 class ProductDetailSerializer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField()
-    # comments_set = CommentsSerializer(many=True)
-    # category = serializers.SerializerMethodField()
-    
-    def get_user(self, obj):
-        return obj.user.email
-    
-    def get_category(self, obj):
-        return obj.category.category_price
 
     class Meta:
         model = Product
         fields = "__all__"
-        
+
 class ProductDetailViewSerializer(serializers.ModelSerializer):
     Catagory_id = serializers.SerializerMethodField()
 

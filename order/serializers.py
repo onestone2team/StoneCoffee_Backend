@@ -8,10 +8,7 @@ class MyOrderListSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class UserOrderCreateSerializer(serializers.ModelSerializer):
-    product = serializers.SerializerMethodField()
 
-    def get_product(self, obj):
-        return obj.product.product_name
     class Meta:
         model = Order
         fields = "__all__"

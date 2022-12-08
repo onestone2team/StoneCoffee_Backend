@@ -43,7 +43,7 @@ class ChangeUserInfo(APIView):
             return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 class MyOrderListView(APIView):
-    permission_classes = (permissions.IsAuthenticated)
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         orders = Order.objects.filter(user_id=request.user.id)
@@ -52,7 +52,7 @@ class MyOrderListView(APIView):
 
 
 class UserPaymentView(APIView):
-    permission_classes = (permissions.IsAdminUser)
+    permission_classes = [permissions.IsAdminUser]
 
     def get(self, request):
         payments = Payment.objects.filter(user_id=request.user.id)

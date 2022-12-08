@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from order.models import Payment
+from product.models import Product
 from order.serializers import UserOrderCreateSerializer, PaymentSerialzier
 from rest_framework.response import Response
 from product.models import Cart
@@ -25,7 +26,7 @@ class UserOrderCreateView(APIView):
             payment_data["user"] = product["user"]
         payment_serializer = PaymentSerialzier(data=payment_data)
         if payment_serializer.is_valid():
-            payment_serializer.save()
+            payment = payment_serializer.save()
         else:
             return Response({"error":payment_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -34,15 +35,16 @@ class UserOrderCreateView(APIView):
             product = model_to_dict(product)
             user_data = request.data
             data = payment_serializer.data
-            payment_id = Payment.objects.filter(Q(total_price=data["total_price"]) & Q(created_at=data["created_at"]) & Q(user_id=request.user.id)).order_by("-id")
-            product["payment_num"] = getattr(payment_id[0],"id")
-            product["product_num"] = product["product"]
+            payment_id = payment.id
+            product_name = product.product.product_name
+            product["payment_num"] = payment_id
+            product["product_name"] = product_name
             product["order_price"] = product.pop("price")
             for data in user_data:
                 product[f"{data}"] = user_data[f"{data}"]
             order_serializer = UserOrderCreateSerializer(data=product)
             if order_serializer.is_valid():
                 order_serializer.save(user_name=request.user, product_id=product["product"])
-                return Response({"order_data":order_serializer.data,"payment_data":payment_serializer.data}, status=status.HTTP_200_OK)
             else:
                 return Response({"order_error":order_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"order_data":order_serializer.data,"payment_data":payment_serializer.data}, status=status.HTTP_200_OK)
