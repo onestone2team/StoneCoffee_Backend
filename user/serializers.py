@@ -102,7 +102,7 @@ class ChangeUserInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserModel
-        fields = ("profilename", "phone", "password", "profile", "password_check")
+        fields = ("profilename", "phone", "password", "profile", "password_check", "address")
 
 class PaymentuserSerializer(serializers.ModelSerializer):
     class Meta:

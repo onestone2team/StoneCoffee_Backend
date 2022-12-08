@@ -30,19 +30,22 @@ class UserOrderCreateView(APIView):
             return Response({"error":payment_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         for cart in cart_id:
-            product = Cart.objects.get(id=cart)
-            product = model_to_dict(product)
+            cart = Cart.objects.get(id=cart)
+            product = model_to_dict(cart)
             user_data = request.data
             data = payment_serializer.data
             payment_id = Payment.objects.filter(Q(total_price=data["total_price"]) & Q(created_at=data["created_at"]) & Q(user_id=request.user.id)).order_by("-id")
             product["payment_num"] = getattr(payment_id[0],"id")
-            product["product_name"] = product.product.product_name
+            product["product_name"] = cart.product.product_name
             product["order_price"] = product.pop("price")
             for data in user_data:
                 product[f"{data}"] = user_data[f"{data}"]
             order_serializer = UserOrderCreateSerializer(data=product)
             if order_serializer.is_valid():
                 order_serializer.save(user_name=request.user, product_id=product["product"])
-                return Response({"order_data":order_serializer.data,"payment_data":payment_serializer.data}, status=status.HTTP_200_OK)
+                cart.delete()
             else:
                 return Response({"order_error":order_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        # return Response({"order_data":order_serializer.data,"payment_data":payment_serializer.data}, status=status.HTTP_200_OK)
+        return Response({"message":"주문되었습니다"}, status=status.HTTP_200_OK)
