@@ -59,18 +59,9 @@ class SignUpSerializer(serializers.ModelSerializer):
 
 
 class ChangeUserInfoSerializer(serializers.ModelSerializer):
-    password_check = serializers.CharField(max_length=50, write_only=True)
-
+    # password_check = serializers.CharField(max_length=50, write_only=True)
+    
     def validate(self, attrs):
-
-        if attrs.get("password") or attrs.get("password_check"):
-            valid_password = password_vaildator(attrs["password"], attrs["password_check"])
-            valid_password2 = password_check_validator(attrs["password"], attrs["password_check"])
-
-            if valid_password == False:
-                raise serializers.ValidationError({"message":"비밀번호는 8자 이상, 특수문자를 하나 이상, 숫자를 하나 이상 포함해야 합니다!"})
-            elif valid_password2 == False:
-                raise serializers.ValidationError({"message":"비밀번호가 다릅니다"})
 
         if attrs.get("address"):
             valid_address = address_validator(attrs["address"])
@@ -84,17 +75,13 @@ class ChangeUserInfoSerializer(serializers.ModelSerializer):
 
         if attrs.get("phone"):
             valid_phone = phone_validator(attrs["phone"])
-            if valid_phone != False:
-                return
-        attrs.pop("password_check", None)
+            if valid_phone == False:
+                raise serializers.ValidationError({"message":"전화번호는 - 문자 포함 010-1111-1111 형식입니다."})
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
-        instance.email = validated_data.get('email', instance.email)
         instance.profile = validated_data.get('profile', instance.profile)
         instance.profilename = validated_data.get('profilename', instance.profilename)
-        if "password" in validated_data:
-            instance.set_password(validated_data.get('password', instance.password))
         instance.address = validated_data.get('address', instance.address)
         instance.phone = validated_data.get('phone', instance.phone)
         instance.save()
@@ -102,7 +89,36 @@ class ChangeUserInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserModel
-        fields = ("profilename", "phone", "password", "profile", "password_check")
+        fields = ("profilename", "phone", "profile",  "address")
+
+
+class ChangeUserPasswordSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(max_length=50, write_only=True)
+    password_check = serializers.CharField(max_length=50, write_only=True)
+
+
+    def validate(self, attrs):
+        if attrs.get("password") or attrs.get("password_check"):
+            valid_password = password_vaildator(attrs["password"], attrs["password_check"])
+            valid_password2 = password_check_validator(attrs["password"], attrs["password_check"])
+            if valid_password == False:
+                raise serializers.ValidationError({"message":"비밀번호는 8자 이상, 특수문자를 하나 이상, 숫자를 하나 이상 포함해야 합니다!"})
+            elif valid_password2 == False:
+                raise serializers.ValidationError({"message":"비밀번호가 다릅니다"})
+        return super().validate(attrs)
+    
+    def update(self, instance, validated_data):
+        if instance.check_password(validated_data.get('old_password')):
+            instance.set_password(validated_data.get('password', instance.password))
+            instance.save()
+        else:
+            raise serializers.ValidationError({"message":"기존 비밀번호가 다릅니다."})
+        return instance
+    
+    class Meta:
+        model = UserModel
+        fields = ("password", "old_password", "password_check")
+
 
 class PaymentuserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -38,7 +38,7 @@ def phone_validator(phone):
     return True
 
 def address_validator(address):
-    is_address = re.compile(r"^(([가-힣A-Za-z·\d~\-\.]{2,}(로|길).[\d]+)|([가-힣A-Za-z·\d~\-\.]+(읍|동)\s)[\d]+)")
+    is_address = re.compile(r"^[가-힣A-Za-z·\d~\-\.]{2,}")
     if not is_address.fullmatch(address):
         return False
     return True

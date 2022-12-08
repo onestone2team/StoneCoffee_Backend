@@ -13,6 +13,8 @@ class Comment(models.Model):
     like = models.ManyToManyField(UserModel, related_name="likes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-created_at']
     
 class Nested_Comment(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)

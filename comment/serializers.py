@@ -7,6 +7,12 @@ class UserCommentSerializer(serializers.ModelSerializer):
         model = UserModel
         fields=('id','profile','profilename',)
 
+class ViewCommentSerializer(serializers.ModelSerializer):
+    user = UserCommentSerializer()
+    class Meta:
+        model = Comment
+        fields = ("id", "image", "comment", "point", "user","like","created_at")
+
 class NestedCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Nested_Comment
