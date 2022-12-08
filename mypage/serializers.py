@@ -15,9 +15,13 @@ class AddinquiryListSerializer(serializers.ModelSerializer):
 
 class InquiryDetailSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    product = serializers.SerializerMethodField()
 
     def get_user(self,obj):
         return obj.user.profilename
+
+    def get_product(self,obj):
+        return obj.product.product_name
 
     class Meta:
         model = Inquiry
