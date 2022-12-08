@@ -61,20 +61,24 @@ class ProductView(APIView):
         product_id = int(request.GET.get('product_id', None))
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
-        # 추천 상품 불러오기
-        rec_data = {}
-        rec_products = recommend_products(product.product_name)
-        for name in rec_products:
-            product = get_object_or_404(Product, product_name=name)
-            rec_serializer = ViewProductSerializer(product)
-            rec_data[name] = rec_serializer.data
-  
-        return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
+            # 추천 상품 불러오기
+        if product.category_id == 1:
+            rec_data = {}
+            rec_products = recommend_products(product.product_name)
+            for name in rec_products:
+                product = get_object_or_404(Product, product_name=name)
+                rec_serializer = ViewProductSerializer(product)
+                rec_data[name] = rec_serializer.data
+    
+            return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
+        else :
+            return Response({"products":serializer.data}, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
 
-    def post(self, request, product_id):
+    def post(self, request):
+        product_id = request.GET.get("product_id")
         like_list = get_object_or_404(Product, id=product_id)
         if request.user in like_list.like.all():
             like_list.like.remove(request.user)
