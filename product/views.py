@@ -89,6 +89,14 @@ class ProductView(APIView):
         product = get_object_or_404(Product, id=product_id)
         product.delete()
         return Response({"message":"게시글이 삭제 되었습니다."}, status=status.HTTP_200_OK)
+
+class ProductSearchView(APIView):
+
+    def get(self, request):
+        search = request.GET.get("search")
+        products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search))
+        serializer = ViewProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
