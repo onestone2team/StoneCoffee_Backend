@@ -39,9 +39,6 @@ class ChangeUserInfo(APIView):
 class ChangeUserPassword(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-<<<<<<< HEAD
-class MyOrderListView(APIView):
-=======
     def put(self, request):
         user = UserModel.objects.get(id=request.user.id)
         serializer = ChangeUserPasswordSerializer(user, data=request.data)
@@ -53,7 +50,6 @@ class MyOrderListView(APIView):
             return Response({"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 #북마크 리스트
 class ViewBookmarkList(APIView):
->>>>>>> ff8df4e7975db8f76c93233cf6ae838512eff054
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
