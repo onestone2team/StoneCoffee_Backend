@@ -1,5 +1,6 @@
+import pandas as pd
 from product.models import Product,Category, Cart
-from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer
+from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer
 from .pagination import PageNumberPagination, get_pagination_result
 from machine.recommend import recommend_products, save_dataframe
 from rest_framework import status, generics, permissions
@@ -69,10 +70,33 @@ class ProductView(APIView):
                 product = get_object_or_404(Product, product_name=name)
                 rec_serializer = ViewProductSerializer(product)
                 rec_data[name] = rec_serializer.data
-    
             return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
         else :
             return Response({"products":serializer.data}, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        product_id = int(request.GET.get('product_id', None))
+        product = get_object_or_404(Product, id=product_id)
+        serializer = ProductDetailEditSerializer(product, data= request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message":"수정되었습니다.", "data":serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message":serializer.error})
+
+    def delete(self, request):
+        product_id = int(request.GET.get('product_id', None))
+        product = get_object_or_404(Product, id=product_id)
+        product.delete()
+        return Response({"message":"게시글이 삭제 되었습니다."}, status=status.HTTP_200_OK)
+
+class ProductSearchView(APIView):
+
+    def get(self, request):
+        search = request.GET.get("search")
+        products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search))
+        serializer = ViewProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
@@ -114,8 +138,6 @@ class ProductCartList(APIView):
             return Response({"message":"장바구니에서 삭제되었습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"message":"해당 물품은 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
-
-import pandas as pd
 
 class ProductSave(APIView):
     def get(self, request):
