@@ -83,6 +83,12 @@ class ProductView(APIView):
             return Response({"message":"수정되었습니다.", "data":serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({"message":serializer.error})
+
+    def delete(self, request):
+        product_id = int(request.GET.get('product_id', None))
+        product = get_object_or_404(Product, id=product_id)
+        product.delete()
+        return Response({"message":"게시글이 삭제 되었습니다."}, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
