@@ -66,10 +66,10 @@ class ProductView(APIView):
         if product.category_id == 1:
             rec_data = {}
             rec_products = recommend_products(product.product_name)
-            for name in rec_products:
+            for i,name in enumerate(rec_products):
                 product = get_object_or_404(Product, product_name=name)
                 rec_serializer = ViewProductSerializer(product)
-                rec_data[name] = rec_serializer.data
+                rec_data[i] = rec_serializer.data
             return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
         else :
             return Response({"products":serializer.data}, status=status.HTTP_200_OK)
