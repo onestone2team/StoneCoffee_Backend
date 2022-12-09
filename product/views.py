@@ -19,7 +19,7 @@ class MainpageView(APIView):
         data = {}
         category = ["coffee", "goods", "product"]
         for i in range(3):
-            product = Product.objects.filter(category=i+1).order_by('-created_at')[:10]
+            product = Product.objects.filter(category=i+1).order_by('?')[:8]
             serializer = ViewProductSerializer(product, many=True)
             data[category[i]] = serializer.data
 
@@ -59,15 +59,20 @@ class ProductCreateView(APIView):
 class ProductView(APIView):
     def get(self, request):
         product_id = int(request.GET.get('product_id', None))
+        
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
         # 추천 상품 불러오기
+
         rec_data = {}
-        rec_products = recommend_products(product.product_name)
-        for name in rec_products:
-            product = get_object_or_404(Product, product_name=name)
-            rec_serializer = ViewProductSerializer(product)
-            rec_data[name] = rec_serializer.data
+        # 원두이외에 추천시스템 설정이없어서 아이디30이상부터는 추천하지않도록 했습니다.
+        # 추후에 변경
+        if product_id <= 30:
+            rec_products = recommend_products(product.product_name)
+            for name in rec_products:
+                product = get_object_or_404(Product, product_name=name)
+                rec_serializer = ViewProductSerializer(product)
+                rec_data[name] = rec_serializer.data
   
         return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
     
