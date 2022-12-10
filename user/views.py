@@ -26,7 +26,7 @@ class SignUpView(APIView):
 
 KAKAO_CONFIG = {
         "KAKAO_REST_API_KEY": "5508ff8ddc147381284f4cad3a77cf87",
-        "KAKAO_REDIRECT_URI": "http://localhost:5500"
+        "KAKAO_REDIRECT_URI": "http://localhost:5500/signupin.html"
 };
 
 kakao_login_uri = "https://kauth.kakao.com/oauth/authorize"
@@ -70,9 +70,9 @@ class KakaoTokenGet(APIView):
 
         token_json = requests.post(kakao_token_uri, headers=token_headers, data=request_parameter).json()
         access_token = token_json["access_token"]
-        access_token = f"Bearer {access_token}"
+        access_token_hr = f"Bearer {access_token}"
         request_header = {
-            'Authorization': access_token,
+            'Authorization': access_token_hr,
             'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         }
 
@@ -93,6 +93,7 @@ class KakaoTokenGet(APIView):
                     "message": "로그인 되었습니다.",
                     "access": login_access_token,
                     "refresh": login_refresh_token,
+                    "kakao_access": access_token,
                 },
                 status=status.HTTP_200_OK,
             )
