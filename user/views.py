@@ -1,8 +1,11 @@
+from django.shortcuts import redirect
+from .models import UserModel
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 import json
 
 
@@ -20,3 +23,97 @@ class SignUpView(APIView):
             return Response({"message":"회원가입이 되었습니다!"}, status=status.HTTP_201_CREATED)
         else:
             return Response({"message":"회원가입이 실패했습니다!"}, status=status.HTTP_400_BAD_REQUEST)
+
+KAKAO_CONFIG = {
+        "KAKAO_REST_API_KEY": "5508ff8ddc147381284f4cad3a77cf87",
+        "KAKAO_REDIRECT_URI": "http://localhost:5500"
+};
+
+kakao_login_uri = "https://kauth.kakao.com/oauth/authorize"
+kakao_token_uri = "https://kauth.kakao.com/oauth/token"
+user_uri = "https://kapi.kakao.com/v2/user/me"
+
+class KakaoView(APIView):
+
+    def get(self, request):
+
+        client_key = KAKAO_CONFIG["KAKAO_REST_API_KEY"]
+        redirect_uri = KAKAO_CONFIG["KAKAO_REDIRECT_URI"]
+
+        uri = f"{kakao_login_uri}?client_id={client_key}&redirect_uri={redirect_uri}&response_type=code"
+
+        return redirect(uri)
+
+import requests
+
+class KakaoTokenGet(APIView):
+
+    def get(self, request):
+        code = request.GET.get('code')
+
+        if not code :
+            error_description = request.GET.get('error_description')
+            return Response({"message": error_description}, status=status.HTTP_400_BAD_REQUEST)
+        
+        client_key = KAKAO_CONFIG["KAKAO_REST_API_KEY"]
+        redirect_uri = KAKAO_CONFIG["KAKAO_REDIRECT_URI"]
+
+        request_parameter = {
+            "grant_type": "authorization_code",
+            "client_id": client_key,
+            "redirect_uri": redirect_uri,
+            "code": code,
+        }
+        token_headers = {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+        }
+
+        token_json = requests.post(kakao_token_uri, headers=token_headers, data=request_parameter).json()
+        access_token = token_json["access_token"]
+        access_token = f"Bearer {access_token}"
+        request_header = {
+            'Authorization': access_token,
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        }
+
+        get_user_info = requests.get(user_uri, headers=request_header).json()
+
+        user_email = get_user_info["kakao_account"]["email"]
+        profile_name = get_user_info["kakao_account"]["profile"]["nickname"]
+
+        checkuser = UserModel.objects.filter(email = user_email)
+
+        if checkuser:
+            user = UserModel.objects.get(email = user_email)
+            token=TokenObtainPairSerializer.get_token(user)
+            login_refresh_token = str(token)
+            login_access_token = str(token.access_token)
+            res = Response(
+                {
+                    "message": "로그인 되었습니다.",
+                    "access": login_access_token,
+                    "refresh": login_refresh_token,
+                },
+                status=status.HTTP_200_OK,
+            )
+            return res
+        else:
+            user = UserModel.objects.create()
+            user.set_unusable_password()
+            user.profilename = profile_name
+            user.email = user_email
+            user.save()
+            token=TokenObtainPairSerializer.get_token(user)
+            login_refresh_token = str(token)
+            login_access_token = str(token.access_token)
+            res = Response(
+                {
+                    "message": "회원 가입 되었습니다.",
+                    "access": login_access_token,
+                    "refresh": login_refresh_token,
+                },
+                status=status.HTTP_200_OK,
+            )
+            return res
+   
+
