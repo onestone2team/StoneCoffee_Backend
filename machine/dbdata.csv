@@ -1,5 +1,4 @@
 num,name_ko,aroma_grade,acidity_grade,sweet_grade,body_grade
-1,예멘 모카 마타리,4,3,5,4
 2,자메이카 블루마운틴,4,5,3,4
 3,하와이안 코나,5,3,5,5
 4,케나AA,4,5,4,3
@@ -29,3 +28,4 @@ num,name_ko,aroma_grade,acidity_grade,sweet_grade,body_grade
 28,에티오피아 아바야게이샤 내추럴,5,4,4,4
 29,파나마 SHB 산타클라라,3,3,3,3
 30,콜롬비아 무산소 120HR,4,4,4,4
+32,커피,4,5,4,3
