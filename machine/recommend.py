@@ -33,7 +33,7 @@ def recommend_start(Aroma, Acidity, Sweetness, Balance):
 
 def save_dataframe():
 
-    datas = pd.read_csv('machine/dbdata.csv', usecols=usecols)
+    datas = pd.read_csv('machine/dbdata.csv', usecols=usecols, encoding='cp949')
     df = datas.dropna()
 
     title_table = pd.pivot_table(df, index = ['name_ko'])

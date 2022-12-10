@@ -37,10 +37,10 @@ class SignUpSerializer(serializers.ModelSerializer):
             elif valid_password2 == False:
                 raise serializers.ValidationError({"message":"비밀번호가 다릅니다"})
 
-        if attrs["profilename"]:
-            valid_profilename = profile_name_validator(attrs["profilename"])
-            if valid_profilename == False:
-                raise serializers.ValidationError({"message":"프로필 이름은 4글자 이상, 특수문자는 _ 만 가능합니다"})
+        # if attrs["profilename"]:
+        #     valid_profilename = profile_name_validator(attrs["profilename"])
+        #     if valid_profilename == False:
+        #         raise serializers.ValidationError({"message":"프로필 이름은 4글자 이상, 특수문자는 _ 만 가능합니다"})
 
         attrs.pop("password_check", None)
         return super().validate(attrs)
