@@ -35,8 +35,7 @@ class UserOrderCreateView(APIView):
             product = model_to_dict(cart)
             user_data = request.data
             data = payment_serializer.data
-            payment_id = Payment.objects.filter(Q(total_price=data["total_price"]) & Q(created_at=data["created_at"]) & Q(user_id=request.user.id)).order_by("-id")
-            product["payment_num"] = getattr(payment_id[0],"id")
+            product["payment_num"] = payment.id
             product["product_name"] = cart.product.product_name
             product["order_price"] = product.pop("price")
             for data in user_data:

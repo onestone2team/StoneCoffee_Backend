@@ -16,7 +16,7 @@ class AdminOrderList(APIView):
     def get(self, request):
         orders = Order.objects.all()
         serializer = AdminProductView(orders, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"data":serializer.data}, status=status.HTTP_200_OK)
 
     def put(self, request):
         order_id = request.GET.get("order_id",None)
@@ -33,7 +33,7 @@ class AdminInquiry(APIView):
     def get(self, request):
         inquiry = Inquiry.objects.all().order_by('status','created_at')
         serializer = InquiryListSerializer(inquiry, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)     
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request):
         Inquiry_id = request.GET.get("Inquiry_id", None)
