@@ -11,7 +11,6 @@ urlpatterns = [
     path('like/',views.ProductLikeView.as_view()),          # 게시글 좋아요
     path('search/', views.ProductSearchView.as_view()),
     path('cart/',views.ProductCartList.as_view()),          # 게시글 장바구니
-    path('order/',views.ProductCartList.as_view()),
     path('save/',views.ProductSave.as_view())
 ]
 

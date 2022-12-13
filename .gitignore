@@ -344,4 +344,5 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,django,macos,visualstudiocode,python
 
 dataimport
+!dataimport/outputdata
 loaddata
