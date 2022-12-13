@@ -89,7 +89,7 @@ class ChangeUserInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserModel
-        fields = ("profilename", "phone", "profile",  "address")
+        fields = ("profilename", "phone", "profile",  "address", "email")
 
 
 class ChangeUserPasswordSerializer(serializers.ModelSerializer):
