@@ -3,10 +3,6 @@ from product.models import Product, Category, Cart
 from comment.serializers import ViewCommentSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField()
-
-    def get_user(self, obj):
-        return obj.user.email
 
     class Meta:
         model = Product
@@ -28,7 +24,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
-        
+
 class ProductDetailSerializer(serializers.ModelSerializer):
     comment_set = ViewCommentSerializer(many=True)
 
@@ -55,7 +51,7 @@ class ProductDetailViewSerializer(serializers.ModelSerializer):
 class CartSaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
-        fields = ("product","count", "price","weight","product_image")
+        fields = ("product","count", "price","weight", "product_image")
 
 class CartViewSerializer(serializers.ModelSerializer):
     product = ProductDetailViewSerializer()

@@ -7,7 +7,8 @@ from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 import json
-
+import os
+import time
 
 
 # Create your views here.
@@ -80,7 +81,7 @@ class KakaoTokenGet(APIView):
 
         user_email = get_user_info["kakao_account"]["email"]
         profile_name = get_user_info["kakao_account"]["profile"]["nickname"]
-
+        profile_image = get_user_info["kakao_account"]["profile"]["profile_image_url"]
         checkuser = UserModel.objects.filter(email = user_email)
 
         if checkuser:
@@ -99,10 +100,17 @@ class KakaoTokenGet(APIView):
             )
             return res
         else:
+            #이미지 저장
+            url = profile_image
+            start = time.time()
+            image_src = f"media/{profile_name}{start}.jpg"
+            os.system(f"curl " + url + " > "+image_src)
+            #유저 저장
             user = UserModel.objects.create()
             user.set_unusable_password()
             user.profilename = profile_name
             user.email = user_email
+            user.profile = image_src
             user.save()
             token=TokenObtainPairSerializer.get_token(user)
             login_refresh_token = str(token)

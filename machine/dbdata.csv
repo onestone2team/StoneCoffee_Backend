@@ -1,31 +1,101 @@
 num,name_ko,aroma_grade,acidity_grade,sweet_grade,body_grade
-2,자메이카 블루마운틴,4,5,3,4
-3,하와이안 코나,5,3,5,5
-4,케나AA,4,5,4,3
-5,과테말라 안티구아,4,3,2,3
-6,브라질 산토스브라질,5,3,2,4
-7,코스타리카 따라주,4,4,3,3
-8,콜롬비아 슈프리모,4,3,3,4
-9,에티오피아 예가체프,3,4,2,3
-10,에티오피아 모시디,5,4,3,3
-11,탄자니아AA,5,4,2,4
-12,인도네시아 만델링,4,2,3,4
-13,자바,4,3,3,5
-14,니카라과 SHG AAA,4,3,4,4
-15,인도네시아 토라자,4,3,3,4
-16,멕시코 알투라,5,2,4,4
-17,파푸아뉴기니아,4,4,4,3
-18,코피 루왁,4,4,4,5
-19,에티오피아 코체레,5,3,4,4
-20,브라질 아이린 내츄럴,3,3,4,4
-21,인도 마이소르 너깃 엑스트라 볼드,4,2,3,3
-22,브라질세하도,3,3,2,3
-23,과테말라 SHB 디카페인,3,2,2,4
-24,에티오피아 시다모,4,4,3,4
-25,에티오피아 코케 허니,4,4,4,4
-26,온두라스 SHG,3,3,3,3
-27,엘살바도르 SHB EP,3,3,4,4
-28,에티오피아 아바야게이샤 내추럴,5,4,4,4
-29,파나마 SHB 산타클라라,3,3,3,3
-30,콜롬비아 무산소 120HR,4,4,4,4
-32,커피,4,5,4,3
+215,Don Enrique Reserve,3,3,2,2
+216,Organic Sierra Nevada FTO,2,2,3,4
+217,Misty Valley,5,5,3,3
+218,La Magnolia,3,3,3,2
+219,La Minita Estate,4,3,3,2
+220,Organic Konga G1,3,2,4,0
+221,Fazenda Da Lagoa Natural,3,3,5,4
+222,Organic Mocabe HG,2,3,1,3
+223,Organic Blue Moon,1,3,4,3
+224,Organic Kayon Mountain G1,3,2,4,3
+225,La Laja Honey,2,3,4,3
+226,Peaberry,3,2,2,2
+227,Mandheling G1,2,3,3,3
+228,Organic Finca La Esperanza,2,2,4,2
+229,Supremo EP,3,2,3,2
+230,Kembata G1,4,3,2,3
+231,La Gladiola,3,2,2,4
+232,El Gato Supremo,3,2,2,4
+233,Durato Bombe,2,4,5,2
+234,Konga G1,2,3,2,2
+235,Organic Purosa A/X,3,2,4,3
+236,HHT SHB,3,2,2,2
+237,Organic Shantawene G1,2,1,2,3
+238,Organic Ramirez Red Honey,3,3,4,4
+239,Oberon,2,3,4,5
+240,La Flor Del Cafe,4,2,0,2
+241,Select Plus AA,4,2,3,2
+242,CBC Blend: Ferdelance,3,4,3,4
+243,El Conquistador,3,2,2,2
+244,Turquesa HG,2,3,1,2
+245,CBC Blend: True Mocca Java,3,4,2,3
+246,Robusta,3,4,2,3
+247,Reserva Del Patron,3,3,2,2
+248,La Laja Washed SHG,2,2,2,3
+249,Monsooned Malabar AA,3,3,3,2
+250,Organic Apolo,4,2,5,2
+251,Organic Haitian Blue,4,3,5,3
+252,Floreal SHB,3,2,3,2
+253,Organic Asdecafe SHB,2,2,2,3
+254,Bella Carmona,4,2,2,2
+255,Organic Decaf Bali Hai,4,2,3,3
+256,Organic Cepco Oaxaca,2,3,4,3
+257,CHC Reserve Espresso,3,4,3,4
+258,Organic Mandheling,1,4,0,2
+259,Sweet Blue,4,3,4,4
+260,Organic 18 Rabbit Washed,4,1,4,3
+261,CBC Blend: Onobeano's Latte,3,2,5,4
+262,Longberry,3,3,2,4
+263,CBC Blend: Organic Big Black,3,4,1,4
+264,Rancho San Francisco,2,3,1,3
+265,Organic La Florida,3,2,3,4
+266,Blawan Estate,2,2,2,2
+267,Organic 18 Rabbit Natural,4,4,5,1
+268,Organic Abakundakawa,2,3,4,3
+269,Decaf Sidamo Natural,2,2,4,3
+270,Decaf La Magnolia,3,3,3,2
+271,Organic Decaf HHT Royal Select,3,1,2,1
+272,CBC Blend: Four Horseman,3,3,2,3
+273,Mocca Hajjah,3,2,3,3
+274,Arokara AA,5,3,1,3
+275,Robusta,0,0,0,0
+276,Organic Fazenda Dutra 14/16,2,3,3,2
+277,Mysore Nuggets,3,4,2,2
+278,Decaf EA,4,1,5,3
+279,Finca La Esperanza,3,2,4,2
+280,Kalossi,3,3,2,3
+281,Organic Decaf Mandheling,1,2,2,2
+282,Mocca Mattari,4,2,3,4
+283,oraja Sapan Minanga,3,1,2,4
+284,Organic Taman Dadar,2,2,3,2
+285,Washed G2,3,2,2,2
+286,Pearl Bourbon Peaberry,4,3,4,4
+287,Organic Bugisu,4,3,1,1
+288,Organic Kintamani,2,4,5,5
+289,Mt Elgon A,4,3,3,1
+290,Organic Muiri Estate,1,2,3,4
+291,Organic 18 Rabbit Black,3,4,4,3
+292,Boru Batak,2,1,1,5
+293,CBC Blend: Kope Kapuna,3,3,2,3
+294,Organic Ramirez Washed,3,4,4,3
+295,Finca Santa Margarita,2,1,4,2
+296,Organic Cafe Timor Coop,2,3,3,3
+297,Fazenda Bela Vista,2,1,3,3
+298,Decaf Mogiana,3,2,0,3
+299,Raja Batak Peaberry,3,4,3,2
+300,Seasoning Beans,3,4,3,2
+301,Kayanza,4,2,2,2
+302,CBC Blend: Red Sea,2,3,3,1
+303,Peaberry Plus 15/16,3,4,4,2
+304,Janson Farms Geisha,3,4,5,3
+305,Organic La Amistad,3,2,3,1
+306,Organic 18 Rabbit Yellow,4,2,4,1
+307,Organic Decaf Purosa A/X,3,2,4,3
+308,Organic 18 Rabbit Red,2,2,2,4
+309,High Octane Blend,3,2,0,2
+310,Organic Finca La Isabelia,2,3,4,2
+311,CBC Blend: Organic Kope Kapuna,3,2,2,3
+312,Organic Caranavi FTO,2,3,2,3
+313,Kona Extra Fancy,5,4,2,2
+314,Kona Peaberry,1,3,3,4

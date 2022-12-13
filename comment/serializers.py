@@ -14,6 +14,7 @@ class ViewCommentSerializer(serializers.ModelSerializer):
         fields = ("id", "image", "comment", "point", "user","like","created_at")
 
 class NestedCommentSerializer(serializers.ModelSerializer):
+    user = UserCommentSerializer()
     class Meta:
         model = Nested_Comment
         fields = "__all__"

@@ -5,7 +5,7 @@ from order.models import Payment
 class InquiryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inquiry
-        fields = ("id","status","title","created_at")
+        fields = ("id","status","title","created_at","content","answer")
 
 class AddinquiryListSerializer(serializers.ModelSerializer):
 

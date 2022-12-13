@@ -40,9 +40,9 @@ class MainTypeView(APIView):
         else :
             return Response({"message":"카테고리 넘버 이상"}, status=status.HTTP_400_BAD_REQUEST)
 
-        paginator = PageNumberPagination()
-        paging = get_pagination_result(paginator, products.count())  
+        paginator = PageNumberPagination()  
         p = paginator.paginate_queryset(queryset=products, request=request)
+        paging = get_pagination_result(paginator, products.count())
         serializer = ViewProductSerializer(p, many=True)
         return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
     
@@ -117,11 +117,12 @@ class ProductCartList(APIView):
     def get(self, request):
         products = Cart.objects.filter(user_id=request.user.id)
         serializer = CartViewSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)     
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)
         product = Product.objects.get(id=product_id)
+        request.data._mutable = True
         request.data["product_image"] = product.image
         serializer = CartSaveSerializer(data=request.data)
         if serializer.is_valid():
