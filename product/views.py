@@ -94,9 +94,12 @@ class ProductSearchView(APIView):
 
     def get(self, request):
         search = request.GET.get("search")
-        products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search))
-        serializer = ViewProductSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search)).order_by('-created_at')
+        paginator = PageNumberPagination()  
+        p = paginator.paginate_queryset(queryset=products, request=request)
+        paging = get_pagination_result(paginator, products.count())
+        serializer = ViewProductSerializer(p, many=True)
+        return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
