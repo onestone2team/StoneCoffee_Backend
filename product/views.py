@@ -3,8 +3,7 @@ from product.models import Product,Category, Cart
 from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer
 from .pagination import PageNumberPagination, get_pagination_result
 from machine.recommend import recommend_products, save_dataframe
-from rest_framework import status, generics, permissions
-from rest_framework import pagination
+from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404

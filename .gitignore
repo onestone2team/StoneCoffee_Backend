@@ -322,6 +322,7 @@ ehthumbs_vista.db
 *.stackdump
 
 secrets.json
+kakao_secrets.json
 
 # Folder config file
 [Dd]esktop.ini
