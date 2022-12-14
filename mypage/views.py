@@ -80,6 +80,7 @@ class InquiryList(APIView):
             return Response({"message": "문의가 등록되었습니다", "data": serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 #사용자 문의 디테일 페이지
 class InquiryDetail(APIView):
     def get(self, request):
