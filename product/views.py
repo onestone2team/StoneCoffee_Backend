@@ -117,7 +117,7 @@ class ProductCartList(APIView):
     def get(self, request):
         products = Cart.objects.filter(user_id=request.user.id)
         serializer = CartViewSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)     
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         product_id = request.GET.get('product_id', None)

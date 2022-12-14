@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.metrics.pairwise import euclidean_distances 
+from sklearn.metrics.pairwise import euclidean_distances
 
 usecols = ['name_ko','aroma_grade','acidity_grade','sweet_grade', 'body_grade']
 

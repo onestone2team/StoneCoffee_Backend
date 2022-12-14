@@ -7,8 +7,6 @@ def profile_name_validator(profilename):
         return False
     return True
 
-
-
 def email_validator(email):
     is_email = re.compile(r'^[a-zA-Z0-9+-_.]+@([a-zA-Z0-9-]{4,})+\.[a-zA-Z0-9-.]+$')
     if not is_email.fullmatch(email):
@@ -42,6 +40,5 @@ def address_validator(address):
     if not is_address.fullmatch(address):
         return False
     return True
-
 
 
