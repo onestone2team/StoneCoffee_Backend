@@ -99,8 +99,9 @@ class KakaoTokenGet(APIView):
             #이미지 저장
             url = profile_image
             start = time.time()
-            image_src = f"media/{profile_name}{start}.jpg"
-            os.system(f"curl " + url + " > "+image_src)
+            image_src = f"{profile_name}{start}.jpg"
+            save_src = f"media/{profile_name}{start}.jpg"
+            os.system(f"curl " + url + " > "+save_src)
             #유저 저장
             user = UserModel.objects.create()
             user.set_unusable_password()

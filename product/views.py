@@ -3,8 +3,7 @@ from product.models import Product,Category, Cart
 from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer
 from .pagination import PageNumberPagination, get_pagination_result
 from machine.recommend import recommend_products, save_dataframe
-from rest_framework import status, generics, permissions
-from rest_framework import pagination
+from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
@@ -94,9 +93,12 @@ class ProductSearchView(APIView):
 
     def get(self, request):
         search = request.GET.get("search")
-        products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search))
-        serializer = ViewProductSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search)).order_by('-created_at')
+        paginator = PageNumberPagination()  
+        p = paginator.paginate_queryset(queryset=products, request=request)
+        paging = get_pagination_result(paginator, products.count())
+        serializer = ViewProductSerializer(p, many=True)
+        return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
     
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
