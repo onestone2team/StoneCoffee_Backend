@@ -55,11 +55,11 @@ KAKAO_CONFIG = get_kakao_secrets("KAKAO_CONFIG")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 환경변수에 따라 DEBUG모드 여부를 결정합니다.
-# DEBUG = 1
-DEBUG = os.environ.get('DEBUG', '0') == '1'
+DEBUG = 1
+# DEBUG = os.environ.get('DEBUG', '0') == '1'
 
 # 접속을 허용할 host를 설정합니다.
-ALLOWED_HOSTS = ['backend',]
+# ALLOWED_HOSTS = ['backend',]
 
 
 # Application definition
@@ -244,11 +244,11 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS 허용 목록에 ec2 ip를 추가합니다.
-CORS_ORIGIN_WHITELIST = ['https://www.musinsa.shop']
+# CORS_ORIGIN_WHITELIST = ['https://www.musinsa.shop', "http://127.0.0.1:5500", "http://127.0.0.1:8000"]
 # ex) CORS_ORIGIN_WHITELIST = ['http://43.201.72.190']
 
 # CSRF 허용 목록을 CORS와 동일하게 설정합니다.
-CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+# CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST

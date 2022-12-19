@@ -170,4 +170,3 @@ class ProductSave(APIView):
         df.to_csv("./machine/dbdata.csv", index=False, encoding='cp949')
         save_dataframe()
         return Response({"message":"저장되었습니다."}, status=status.HTTP_200_OK)
-       
