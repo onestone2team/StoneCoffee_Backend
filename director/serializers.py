@@ -32,4 +32,4 @@ class AdminInquiryListSerializer(serializers.ModelSerializer):
         return obj.user.profilename
     class Meta:
         model = Inquiry
-        fields = ("id","status","title","created_at","content","answer","user")
+        fields = ("id","status","title","created_at","content","answer","user","category")
