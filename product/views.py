@@ -29,7 +29,7 @@ class MainTypeView(APIView):
 
     def get(self, request):
         category = int(request.GET.get('category_id', None))
-        
+
         if category <= 3:
             products = Product.objects.filter(category=category).order_by("-created_at")
         elif category == 4:
@@ -39,12 +39,12 @@ class MainTypeView(APIView):
         else :
             return Response({"message":"카테고리 넘버 이상"}, status=status.HTTP_400_BAD_REQUEST)
 
-        paginator = PageNumberPagination()  
+        paginator = PageNumberPagination()
         p = paginator.paginate_queryset(queryset=products, request=request)
         paging = get_pagination_result(paginator, products.count())
         serializer = ViewProductSerializer(p, many=True)
         return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
-    
+
 class ProductCreateView(APIView):
     permission_classes=[permissions.IsAdminUser]
 
@@ -69,9 +69,15 @@ class ProductView(APIView):
                 product = get_object_or_404(Product, product_name=name)
                 rec_serializer = ViewProductSerializer(product)
                 rec_data[i] = rec_serializer.data
-            return Response({"products":serializer.data, "recommend":rec_data,}, status=status.HTTP_200_OK)
-        else :
-            return Response({"products":serializer.data}, status=status.HTTP_200_OK)
+            return Response({"products":serializer.data, "recommend":rec_data}, status=status.HTTP_200_OK)
+        elif product.category_id == 3:
+            rec_etc_data = {}
+            rec_etc_products = Product.objects.filter(category_id=3).order_by("?")[:7]
+            for i,name in enumerate(rec_etc_products):
+                product = get_object_or_404(Product, product_name=name)
+                rec_serializer = ViewProductSerializer(product)
+                rec_etc_data[i] = rec_serializer.data
+            return Response({"products":serializer.data,"recommend":rec_etc_data}, status=status.HTTP_200_OK)
 
     def put(self, request):
         product_id = int(request.GET.get('product_id', None))
@@ -94,12 +100,12 @@ class ProductSearchView(APIView):
     def get(self, request):
         search = request.GET.get("search")
         products = Product.objects.filter(Q(product_name__contains=search)|Q(content__contains=search)).order_by('-created_at')
-        paginator = PageNumberPagination()  
+        paginator = PageNumberPagination()
         p = paginator.paginate_queryset(queryset=products, request=request)
         paging = get_pagination_result(paginator, products.count())
         serializer = ViewProductSerializer(p, many=True)
         return Response({"data": serializer.data, "page":paging}, status=status.HTTP_200_OK)
-    
+
 class ProductLikeView(APIView):
     permission_classes=[permissions.IsAuthenticated]
 

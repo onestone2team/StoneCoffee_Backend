@@ -12,14 +12,14 @@ class ViewProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ("id", "product_name", "price", "category", "image")
+        fields = ("id", "product_name", "price", "category_id", "image")
 
 class ProductCreateSerializer(serializers.ModelSerializer):
     # user = serializers.SerializerMethodField(
     class Meta:
         model = Product
         fields = "__all__"
-    
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -30,8 +30,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ("id","product_name","content","price","image","like","aroma_grade","sweet_grade","acidity_grade","body_grade","comment_set")
-        
+        fields = ("id","product_name","content","price","image","like","aroma_grade","sweet_grade","acidity_grade","body_grade","comment_set","category_id")
+
 class ProductDetailEditSerializer(serializers.ModelSerializer):
 
     class Meta:
