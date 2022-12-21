@@ -30,7 +30,11 @@ class MainTypeView(APIView):
     def get(self, request):
         category = int(request.GET.get('category_id', None))
 
-        if category <= 3:
+        if category == 1:
+            products = Product.objects.filter(category=category).order_by("-created_at")
+        elif category == 2:
+            products = Product.objects.filter(category=category).order_by("-id")
+        elif category == 3:
             products = Product.objects.filter(category=category).order_by("-created_at")
         elif category == 4:
             products = Product.objects.filter(category=1).order_by("-body_grade")
@@ -61,6 +65,8 @@ class ProductView(APIView):
         product_id = int(request.GET.get('product_id', None))
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
+        연습 = Product.objects.filter(category_id=1)[:7]
+        print(연습)
             # 추천 상품 불러오기
         if product.category_id == 1:
             rec_data = {}
@@ -70,11 +76,11 @@ class ProductView(APIView):
                 rec_serializer = ViewProductSerializer(product)
                 rec_data[i] = rec_serializer.data
             return Response({"products":serializer.data, "recommend":rec_data}, status=status.HTTP_200_OK)
-        elif product.category_id == 3:
+        else :
             rec_etc_data = {}
-            rec_etc_products = Product.objects.filter(category_id=3).order_by("?")[:7]
+            rec_etc_products = Product.objects.filter(category_id=product.category_id).order_by("?")[:7]
             for i,name in enumerate(rec_etc_products):
-                product = get_object_or_404(Product, product_name=name)
+                product = get_object_or_404(Product, id=name.id)
                 rec_serializer = ViewProductSerializer(product)
                 rec_etc_data[i] = rec_serializer.data
             return Response({"products":serializer.data,"recommend":rec_etc_data}, status=status.HTTP_200_OK)
