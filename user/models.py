@@ -49,6 +49,7 @@ class UserModel(AbstractBaseUser):
     profilename = models.CharField('회원이름',max_length=50, error_messages={"unique":"이미 사용중인 이름입니다"})
     address = models.TextField('배송지',blank=True, default="")
     phone = models.CharField('연락처',max_length=30,blank=True, default="")
+
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
