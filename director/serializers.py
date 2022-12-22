@@ -23,4 +23,13 @@ class AddadminInquirySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Inquiry
-        fields = ("answer",)
+        fields = ("answer", "status")
+
+class AdminInquiryListSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self,obj):
+        return obj.user.profilename
+    class Meta:
+        model = Inquiry
+        fields = ("id","status","title","created_at","content","answer","user","category")

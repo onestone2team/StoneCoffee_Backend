@@ -46,9 +46,9 @@ class UserModel(AbstractBaseUser):
     email = models.EmailField('이메일', unique=True, error_messages={"unique":"이미 사용중인 이메일입니다"})
     password = models.CharField('비밀번호',max_length=30)
     profile = models.ImageField('프로필 사진',upload_to='%y/%m/', default='basic_profile/guest.png')
-    profilename = models.CharField('회원이름',max_length=50, unique=True, error_messages={"unique":"profilename 이미 사용중인 이름입니다"})
-    address = models.TextField('배송지',blank=True, default='-')
-    phone = models.CharField('연락처',max_length=30,blank=True, default='-')
+    profilename = models.CharField('회원이름',max_length=50, error_messages={"unique":"이미 사용중인 이름입니다"})
+    address = models.TextField('배송지',blank=True, null=True)
+    phone = models.CharField('연락처',max_length=30,blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
