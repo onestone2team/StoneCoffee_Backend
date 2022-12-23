@@ -5,23 +5,29 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.generics import get_object_or_404
+from order.models import Order
 
 
 #댓글 추가
 class CommentCreateView(APIView):
     permission_classes=[permissions.IsAuthenticated]
     def post(self, request):
-        product_id = request.GET.get('product_id')
-        comment = Comment.objects.filter(Q(product_id=product_id)&Q(user_id=request.user.id))
-        if comment.count()<1:
-            serializer = CommentCreateSerializer(data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save(product_id=product_id, user=request.user)
-                return Response({"data":serializer.data,"message":"댓글이 등록되었습니다."}, status=status.HTTP_201_CREATED)
+        buy_user = len(Order.objects.filter(user_id=request.user.id))
+        print(buy_user)
+        if buy_user != 0:
+            product_id = request.GET.get('product_id')
+            comment = Comment.objects.filter(Q(product_id=product_id)&Q(user_id=request.user.id))
+            if comment.count()<1:
+                serializer = CommentCreateSerializer(data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer.save(product_id=product_id, user=request.user)
+                    return Response({"data":serializer.data,"message":"댓글이 등록되었습니다."}, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"errors":serializer.errors,"message":"댓글이 정상적으로 등록되지 않았습니다. 다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({"errors":serializer.errors,"message":"댓글이 정상적으로 등록되지 않았습니다. 다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message":"댓글은 게시물당 하나씩만 등록할 수 있습니다."}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"message":"댓글은 게시물당 하나씩만 등록할 수 있습니다."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"주문을 한 회원만 댓글을 등록할 수 있습니다"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 #댓글 및 대댓글 조회, 댓글 수정 및 삭제
 class CommentDetailView(APIView):
@@ -32,7 +38,11 @@ class CommentDetailView(APIView):
         comment = get_object_or_404(Comment, id=comment_id)
         serializer = CommentSerializer(comment)
         return Response(serializer.data, status=status.HTTP_200_OK)
+<<<<<<< HEAD
        
+=======
+
+>>>>>>> 0734c40a388080b502543385f6b0e78e1b5d2c52
     def put(self, request):
         comment_id = request.GET.get('comment_id')
         comment = get_object_or_404(Comment, id=comment_id)
@@ -56,6 +66,7 @@ class CommentLikeView(APIView):
     def post(self, request):
         comment_id = request.GET.get('comment_id')
         comment_list = get_object_or_404(Comment, id=comment_id)
+        like_count = Comment.objects.filter(comment_id)
         if request.user in comment_list.like.all():
             comment_list.like.remove(request.user)
             return Response({"message":"좋아요를 취소했습니다."}, status=status.HTTP_200_OK)

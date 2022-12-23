@@ -22,25 +22,53 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
+
+
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
 with open(secret_file) as f:
     secrets = json.loads(f.read())
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0734c40a388080b502543385f6b0e78e1b5d2c52
 def get_secret(setting):
     try:
         return secrets[setting]
     except KeyError:
         error_msg = "Set the {} environment variable".format(setting)
         raise ImproperlyConfigured(error_msg)
-
-
 SECRET_KEY = get_secret("SECRET_KEY")
 
+
+
+secret_file = os.path.join(BASE_DIR, 'kakao_secrets.json')
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+
+def get_kakao_secrets(setting):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+KAKAO_CONFIG = get_kakao_secrets("KAKAO_CONFIG")
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
+<<<<<<< HEAD
 DEBUG = True
 
 ALLOWED_HOSTS = []
+=======
+# 환경변수에 따라 DEBUG모드 여부를 결정합니다.
+DEBUG = 1
+# DEBUG = os.environ.get('DEBUG', '0') == '1'
+
+# 접속을 허용할 host를 설정합니다.
+# ALLOWED_HOSTS = ['backend',]
+>>>>>>> 0734c40a388080b502543385f6b0e78e1b5d2c52
 
 
 # Application definition
@@ -203,4 +231,16 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+<<<<<<< HEAD
 }
+=======
+}
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS 허용 목록에 ec2 ip를 추가합니다.
+# CORS_ORIGIN_WHITELIST = ['https://www.musinsa.shop', "http://127.0.0.1:5500", "http://127.0.0.1:8000"]
+# ex) CORS_ORIGIN_WHITELIST = ['http://43.201.72.190']
+
+# CSRF 허용 목록을 CORS와 동일하게 설정합니다.
+# CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+>>>>>>> 0734c40a388080b502543385f6b0e78e1b5d2c52

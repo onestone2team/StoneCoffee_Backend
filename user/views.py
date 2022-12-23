@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-import json
+from main.settings import KAKAO_CONFIG
 import os
 import time
 
@@ -25,10 +25,6 @@ class SignUpView(APIView):
         else:
             return Response({"message":"회원가입이 실패했습니다!"}, status=status.HTTP_400_BAD_REQUEST)
 
-KAKAO_CONFIG = {
-        "KAKAO_REST_API_KEY": "5508ff8ddc147381284f4cad3a77cf87",
-        "KAKAO_REDIRECT_URI": "http://localhost:5500/signupin.html"
-};
 
 kakao_login_uri = "https://kauth.kakao.com/oauth/authorize"
 kakao_token_uri = "https://kauth.kakao.com/oauth/token"
@@ -103,8 +99,9 @@ class KakaoTokenGet(APIView):
             #이미지 저장
             url = profile_image
             start = time.time()
-            image_src = f"media/{profile_name}{start}.jpg"
-            os.system(f"curl " + url + " > "+image_src)
+            image_src = f"{profile_name}{start}.jpg"
+            save_src = f"media/{profile_name}{start}.jpg"
+            os.system(f"curl " + url + " > "+save_src)
             #유저 저장
             user = UserModel.objects.create()
             user.set_unusable_password()
