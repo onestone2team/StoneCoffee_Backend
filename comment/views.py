@@ -38,11 +38,6 @@ class CommentDetailView(APIView):
         comment = get_object_or_404(Comment, id=comment_id)
         serializer = CommentSerializer(comment)
         return Response(serializer.data, status=status.HTTP_200_OK)
-<<<<<<< HEAD
-       
-=======
-
->>>>>>> 0734c40a388080b502543385f6b0e78e1b5d2c52
     def put(self, request):
         comment_id = request.GET.get('comment_id')
         comment = get_object_or_404(Comment, id=comment_id)
@@ -69,7 +64,7 @@ class CommentLikeView(APIView):
         like_count = Comment.objects.filter(comment_id)
         if request.user in comment_list.like.all():
             comment_list.like.remove(request.user)
-            return Response({"message":"좋아요를 취소했습니다."}, status=status.HTTP_200_OK)
+            return Response({"data":like_count, "message":"좋아요를 취소했습니다."}, status=status.HTTP_200_OK)
         else:
             comment_list.like.add(request.user)
             return Response({"message":"이 댓글을 좋아합니다"}, status=status.HTTP_201_CREATED)
