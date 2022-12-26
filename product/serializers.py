@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from product.models import Product, Category, Cart
+from user.models import UserModel
 from comment.serializers import ViewCommentSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -64,3 +65,9 @@ class ProductNameIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ("id", "product_name")
+
+class RecommendSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserModel
+        fields = ("user_survey","id")
