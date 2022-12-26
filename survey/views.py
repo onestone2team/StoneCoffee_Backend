@@ -14,6 +14,9 @@ class SurveyStart(APIView):
     def post(self, request):
         serializer = SurveySerializer(data=request.data)
         if serializer.is_valid():
+            if request.user.is_authenticated == True :
+                serializer.save(user = request.user)
+            
             Aroma = serializer.data["aroma_grade"]
             Acidity = serializer.data["sweet_grade"]
             Sweetness = serializer.data["acidity_grade"]

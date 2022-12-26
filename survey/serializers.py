@@ -6,7 +6,7 @@ class SurveySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Survey
-        fields = "__all__"
+        fields = ("aroma_grade", "sweet_grade", "acidity_grade", "body_grade")
 
 class ShowProductSerializer(serializers.ModelSerializer):
 
