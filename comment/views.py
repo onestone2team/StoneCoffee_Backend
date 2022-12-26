@@ -61,13 +61,14 @@ class CommentLikeView(APIView):
     def post(self, request):
         comment_id = request.GET.get('comment_id')
         comment_list = get_object_or_404(Comment, id=comment_id)
-        like_count = Comment.objects.filter(comment_id)
         if request.user in comment_list.like.all():
             comment_list.like.remove(request.user)
-            return Response({"data":like_count, "message":"좋아요를 취소했습니다."}, status=status.HTTP_200_OK)
+            like_count = len(comment_list.like.all())
+            return Response({"message":"좋아요를 취소했습니다.","count":like_count}, status=status.HTTP_200_OK)
         else:
             comment_list.like.add(request.user)
-            return Response({"message":"이 댓글을 좋아합니다"}, status=status.HTTP_201_CREATED)
+            like_count = len(comment_list.like.all())
+            return Response({"message":"이 댓글을 좋아합니다","count":like_count}, status=status.HTTP_201_CREATED)
 
 #대댓글 추가
 class NestedCommentCreatetView(APIView):
