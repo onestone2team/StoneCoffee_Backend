@@ -2,7 +2,7 @@ import re
 
 #profile name 이름에 _뺀 나머지 특수문자만 허용
 def profile_name_validator(profilename):
-    is_profilename = re.compile(r'^[a-zA-Z0-9+_]{4,}')
+    is_profilename = re.compile(r'^[a-zA-Z0-9+_ㄱ-ㅎ가-힣]{1,}')
     if is_profilename.fullmatch(profilename) == None:
         return False
     return True
