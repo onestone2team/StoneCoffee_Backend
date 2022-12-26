@@ -39,5 +39,5 @@ class OrderCancel(models.Model):
     price = models.IntegerField()
     user = models.ForeignKey(Payment, on_delete=models.DO_NOTHING, related_name="username")
     created_at = models.DateField(auto_now_add=True)
-    # 3 == 주문 취소 요청, 4 == 주문 취소
+    # 3 == 주문 취소 요청, 4 == 주문 취소, 6 베달비 결제
     status = models.IntegerField(default=0)
