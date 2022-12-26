@@ -3,7 +3,7 @@ from .models import UserModel
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer
+from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer , KakaoTokenObtainSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from main.settings import KAKAO_CONFIG
@@ -76,13 +76,11 @@ class KakaoTokenGet(APIView):
         get_user_info = requests.get(user_uri, headers=request_header).json()
         user_email = get_user_info["kakao_account"]["email"]
         profile_name = get_user_info["kakao_account"]["profile"]["nickname"]
-        
-        
         checkuser = UserModel.objects.filter(email = user_email)
 
         if checkuser:
             user = UserModel.objects.get(email = user_email)
-            token=TokenObtainPairSerializer.get_token(user)
+            token=KakaoTokenObtainSerializer.get_token(user)
             login_refresh_token = str(token)
             login_access_token = str(token.access_token)
             res = Response(
@@ -113,7 +111,7 @@ class KakaoTokenGet(APIView):
                 user.profile = image_src
 
             user.save()
-            token=TokenObtainPairSerializer.get_token(user)
+            token=KakaoTokenObtainSerializer.get_token(user)
             login_refresh_token = str(token)
             login_access_token = str(token.access_token)
             res = Response(
@@ -125,5 +123,5 @@ class KakaoTokenGet(APIView):
                 status=status.HTTP_200_OK,
             )
             return res
-   
+
 
