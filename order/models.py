@@ -28,8 +28,8 @@ class Order(models.Model):
     user_phone = models.CharField(max_length=15)
     weight = models.IntegerField(verbose_name="상품 중량")
     product_image = models.ImageField(upload_to='%y/%m/')
-    receiver = models.TextField()
-    order_code = models.TextField(unique=True)
+    receiver = models.TextField(blank=True, null=True)
+    order_code = models.TextField()
     # 0 == 확인 대기, 1 == 배송중, 2 == 배송완료, 3 == 주문 취소 요청, 4 == 주문 취소
     status = models.IntegerField(verbose_name="주문 상태", default=0)
 
