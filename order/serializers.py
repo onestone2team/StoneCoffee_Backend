@@ -1,7 +1,5 @@
 from rest_framework import serializers
 from order.models import Order, Payment
-from product.serializers import ProductNameIdSerializer
-from user.serializers import PaymentuserSerializer
 
 class MyOrderListSerializer(serializers.ModelSerializer):
     class Meta:

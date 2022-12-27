@@ -322,6 +322,7 @@ ehthumbs_vista.db
 
 secrets.json
 kakao_secrets.json
+payment.json
 
 # Folder config file
 [Dd]esktop.ini

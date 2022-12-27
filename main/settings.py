@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import os
-import json
+import os, json
 from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,10 +51,24 @@ def get_kakao_secrets(setting):
 
 KAKAO_CONFIG = get_kakao_secrets("KAKAO_CONFIG")
 
+secret_file = os.path.join(BASE_DIR, 'payment.json')
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+def get_payment_secrets(setting):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+IMP_KEY = get_payment_secrets("imp_key")
+IMP_SECRET = get_payment_secrets("imp_secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
 # 환경변수에 따라 DEBUG모드 여부를 결정합니다.
-DEBUG = 1
+# DEBUG = 1
 # DEBUG = os.environ.get('DEBUG', '0') == '1'
 
 # 접속을 허용할 host를 설정합니다.
@@ -95,28 +108,6 @@ REST_FRAMEWORK = {
 
 }
 
-# postgres 환경변수가 존재 할 경우에 postgres db에 연결을 시도합니다.
-POSTGRES_DB = os.environ.get('POSTGRES_DB', '')
-if POSTGRES_DB:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': POSTGRES_DB,
-            'USER': os.environ.get('POSTGRES_USER', ''),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-            'HOST': os.environ.get('POSTGRES_HOST', ''),
-            'PORT': os.environ.get('POSTGRES_PORT', ''),
-        }
-    }
-
-# 환경변수가 존재하지 않을 경우 sqlite3을 사용합니다.
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -212,9 +203,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATE_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S']
 
+CORS_ORIGIN_ALLOW_ALL  = True
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=720),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
@@ -244,6 +236,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS 허용 목록에 ec2 ip를 추가합니다.

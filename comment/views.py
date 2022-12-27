@@ -38,7 +38,6 @@ class CommentDetailView(APIView):
         comment = get_object_or_404(Comment, id=comment_id)
         serializer = CommentSerializer(comment)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
     def put(self, request):
         comment_id = request.GET.get('comment_id')
         comment = get_object_or_404(Comment, id=comment_id)
@@ -103,4 +102,4 @@ class NestedCommentDetailView(APIView):
         nestedcomment_id = request.GET.get('nestedcomment_id')
         nested_comment = Nested_Comment.objects.get(id=nestedcomment_id)
         nested_comment.delete()
-        return Response({"message": "해당 대댓글이 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "해당 대댓글이 삭제되었습니다."}, status=status.HTTP_200_OK)
