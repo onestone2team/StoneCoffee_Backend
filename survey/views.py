@@ -1,9 +1,6 @@
-from .models import Survey
 from .serializers import SurveySerializer, ShowProductSerializer
 from machine.recommend import recommend_start
-from product.serializers import ProductCreateSerializer
 from product.models import Product
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response

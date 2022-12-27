@@ -1,6 +1,6 @@
 import pandas as pd
-from product.models import Product,Category, Cart
-from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer, RecommendSerializer
+from product.models import Product, Cart
+from product.serializers import ViewProductSerializer,ProductCreateSerializer, ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer
 from .pagination import PageNumberPagination, get_pagination_result
 from user.models import UserModel
 from machine.recommend import recommend_products, save_dataframe, recommend_start
@@ -9,7 +9,6 @@ from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
-from product.permissions import IsAdminOrAuthenticatedOrReadOnly,DeletePermissition
 from django.db.models import Q
 # Create your views here.
 
@@ -34,7 +33,7 @@ class MainpageView(APIView):
                 aroma = survey.aroma_grade
                 acidity = survey.acidity_grade
                 sweetness = survey.sweet_grade
-                balance = survey.body_grade 
+                balance = survey.body_grade
 
                 user_survey = recommend_start(aroma, acidity, sweetness, balance)
                 for i in range(len(user_survey)):
@@ -43,10 +42,10 @@ class MainpageView(APIView):
                     recommend.append(survey_data.data)
             else :
                 pass
-            
-        
+
+
         return Response({"data":data, "recommend":recommend}, status=status.HTTP_201_CREATED)
-    
+
 class MainTypeView(APIView):
 
     def get(self, request):
@@ -95,8 +94,6 @@ class ProductView(APIView):
         product_id = int(request.GET.get('product_id', None))
         product = get_object_or_404(Product, id=product_id)
         serializer = ProductDetailSerializer(product)
-        연습 = Product.objects.filter(category_id=1)[:7]
-        print(연습)
             # 추천 상품 불러오기
         if product.category_id == 1:
             rec_data = {}
