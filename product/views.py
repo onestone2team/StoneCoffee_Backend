@@ -1,8 +1,10 @@
 import pandas as pd
 from product.models import Product,Category, Cart
-from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer
+from product.serializers import ProductSerializer, ViewProductSerializer,ProductCreateSerializer, CategorySerializer,ProductDetailSerializer, CartSaveSerializer, CartViewSerializer, ProductDetailEditSerializer, RecommendSerializer
 from .pagination import PageNumberPagination, get_pagination_result
-from machine.recommend import recommend_products, save_dataframe
+from user.models import UserModel
+from machine.recommend import recommend_products, save_dataframe, recommend_start
+from survey.serializers import ShowProductSerializer
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,13 +19,33 @@ class MainpageView(APIView):
 
     def get(self, request):
         data = {}
+        recommend = []
         category = ["coffee", "goods", "product"]
+
         for i in range(3):
-            product = Product.objects.filter(category=i+1).order_by('-created_at')[:10]
+            product = Product.objects.filter(category=i+1).order_by('?')[:10]
             serializer = ViewProductSerializer(product, many=True)
             data[category[i]] = serializer.data
+        if request.user.is_authenticated == True :
+            user = UserModel.objects.get(id=request.user.id)
+            survey = user.user_survey.all()
+            if survey :
+                survey = survey.order_by('-id')[0]
+                aroma = survey.aroma_grade
+                acidity = survey.acidity_grade
+                sweetness = survey.sweet_grade
+                balance = survey.body_grade 
 
-        return Response({"data":data}, status=status.HTTP_201_CREATED)
+                user_survey = recommend_start(aroma, acidity, sweetness, balance)
+                for i in range(len(user_survey)):
+                    product = get_object_or_404(Product, product_name = user_survey[i])
+                    survey_data = ShowProductSerializer(product)
+                    recommend.append(survey_data.data)
+            else :
+                pass
+            
+        
+        return Response({"data":data, "recommend":recommend}, status=status.HTTP_201_CREATED)
     
 class MainTypeView(APIView):
 

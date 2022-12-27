@@ -24,7 +24,7 @@ def recommend_start(Aroma, Acidity, Sweetness, Balance):
     item_based_collab = euclidean_distances(title_table, title_table)
     item_based_collab = pd.DataFrame(item_based_collab, index=title_table.index, columns=title_table.index)
 
-    return_items = item_based_collab['user'].sort_values(ascending=True)[:4].index.tolist()
+    return_items = item_based_collab['user'].sort_values(ascending=True)[:9].index.tolist()
 
     return_items.remove('user')
 
