@@ -68,6 +68,8 @@ class order_cancel(APIView):
             return Response({"message":f"{order.product_name}은 이미 취소된 주문입니다"}, status=status.HTTP_400_BAD_REQUEST)
 
         elif order.status != 3 or payment.status != 3 or order.status != 4 or payment.status != 4:
+            
+            
             if order_price == payment_price:  # 전체취소
                 setattr(payment, "status", 3)
                 setattr(order, "status", 3)
@@ -75,7 +77,7 @@ class order_cancel(APIView):
                 order.save()
                 return Response({"message":"주문취소 요청이 완료되었습니다.","price":payment.total_price}, status=status.HTTP_200_OK)
 
-            elif payment_price - 3000 > 50000 and payment_price - order_price < 50000:
+            elif payment_price - 3000 > 50000 and payment_price - order_price < 50000: # 부분취소
                 setattr(order, "status", 3)
                 setattr(payment, "total_price", payment_price-order_price)
                 payment.save()
@@ -84,7 +86,7 @@ class order_cancel(APIView):
 
             else:
                 setattr(order, "status", 3) #부분취소
-                setattr(payment, "total_price", payment_price-order_price)
+                setattr(payment, "total_price", payment_price-order_price) # 
                 payment.save()
                 order.save()
                 return Response({"message":"주문취소 요청이 완료되었습니다.","price":order_price}, status=status.HTTP_200_OK)
