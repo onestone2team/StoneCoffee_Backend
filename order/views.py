@@ -9,6 +9,8 @@ from product.models import Cart
 from django.forms.models import model_to_dict
 from django.db.models import Q
 from rest_framework.generics import get_object_or_404
+import requests
+from main.settings import IMP_KEY, IMP_SECRET
 
 
 
@@ -50,9 +52,34 @@ class UserOrderCreateView(APIView):
 
         return Response({"message":"주문되었습니다."}, status=status.HTTP_200_OK)
 
-class order_cancel(APIView):
+
+def send_cancel_request(order_code, order_price, access_token):
+        payment_cancel_uri = 'https://api.iamport.kr/payments/cancel'
+        payment_body = {
+            "reason": "테스트 결제 취소",
+            "imp_uid": order_code,
+            "amount": order_price,
+        }
+        payment_headers = {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            'Authorization' : access_token
+        }
+        token_json = requests.post(payment_cancel_uri, headers=payment_headers, data=payment_body).json()
+
+class OrderCancel(APIView):
 
     def post(self, request):
+
+        payment_token_uri = 'https://api.iamport.kr/users/getToken'
+        request_parameter = {
+            "imp_key": IMP_KEY,
+            "imp_secret": IMP_SECRET,
+        }
+        token_headers = {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+        }
+        token_json = requests.post(payment_token_uri, headers=token_headers, data=request_parameter).json()
+        access_token = token_json['response']['access_token']
 
         cancel_order_id = request.GET.get("order_id", None)
         order = get_object_or_404(Order, id=int(cancel_order_id))
@@ -68,28 +95,31 @@ class order_cancel(APIView):
             return Response({"message":f"{order.product_name}은 이미 취소된 주문입니다"}, status=status.HTTP_400_BAD_REQUEST)
 
         elif order.status != 3 or payment.status != 3 or order.status != 4 or payment.status != 4:
-            
-            
+
             if order_price == payment_price:  # 전체취소
-                setattr(payment, "status", 3)
-                setattr(order, "status", 3)
+                setattr(payment, "status", 4)
+                setattr(order, "status", 4)
+                order_code = getattr(order, "order_code")
                 payment.save()
                 order.save()
+                send_cancel_request(order_code, payment.total_price, access_token)
                 return Response({"message":"주문취소 요청이 완료되었습니다.","price":payment.total_price}, status=status.HTTP_200_OK)
 
             elif payment_price - 3000 > 50000 and payment_price - order_price < 50000: # 부분취소
-                setattr(order, "status", 3)
-                setattr(payment, "total_price", payment_price-order_price)
+                setattr(order, "status", 4)
+                setattr(payment, "total_price", payment_price - order_price)
                 payment.save()
                 order.save()
-                return Response({"message":"주문금액이 50000원 이하가 되어 배송비 3000원을 제외한 금액을 환불해 드립니다","price":order_price-3000}, status=status.HTTP_200_OK)
+                send_cancel_request(order_code, order_price-3000, access_token)
+                return Response({"message":"주문금액이 50000원 이하가 되어 배송비 3000원을 제외한 금액을 환불해 드립니다"}, status=status.HTTP_200_OK)
 
             else:
-                setattr(order, "status", 3) #부분취소
-                setattr(payment, "total_price", payment_price-order_price) # 
+                setattr(order, "status", 4) #부분취소
+                setattr(payment, "total_price", payment_price - order_price)
                 payment.save()
                 order.save()
-                return Response({"message":"주문취소 요청이 완료되었습니다.","price":order_price}, status=status.HTTP_200_OK)
+                send_cancel_request(order_code, order_price, access_token)
+                return Response({"message":"주문취소 요청이 완료되었습니다."}, status=status.HTTP_200_OK)
 
         else:
             return Response({"message":"취소할 주문내역이 없습니다"}, status=status.HTTP_400_BAD_REQUEST)

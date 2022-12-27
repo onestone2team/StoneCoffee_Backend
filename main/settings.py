@@ -52,6 +52,17 @@ def get_kakao_secrets(setting):
 
 KAKAO_CONFIG = get_kakao_secrets("KAKAO_CONFIG")
 
+secret_file = os.path.join(BASE_DIR, 'payment.json')
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+def get_payment_secrets(setting):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+IMP_KEY = get_payment_secrets("imp_key")
+IMP_SECRET = get_payment_secrets("imp_secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 환경변수에 따라 DEBUG모드 여부를 결정합니다.
