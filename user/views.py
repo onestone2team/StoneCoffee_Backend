@@ -51,7 +51,7 @@ class KakaoTokenGet(APIView):
         if not code :
             error_description = request.GET.get('error_description')
             return Response({"message": error_description}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         client_key = KAKAO_CONFIG["KAKAO_REST_API_KEY"]
         redirect_uri = KAKAO_CONFIG["KAKAO_REDIRECT_URI"]
 
@@ -76,7 +76,6 @@ class KakaoTokenGet(APIView):
         get_user_info = requests.get(user_uri, headers=request_header).json()
         user_email = get_user_info["kakao_account"]["email"]
         profile_name = get_user_info["kakao_account"]["profile"]["nickname"]
-
         checkuser = UserModel.objects.filter(email = user_email)
 
         if checkuser:

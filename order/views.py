@@ -92,7 +92,7 @@ class OrderCancel(APIView):
         payment_price = int(payment_price.replace(",",""))
 
         if order.status == 3 or payment.status == 3 or order.status == 4 or payment.status == 4:
-            return Response({"message":f"{order.product_name}은 이미 취소된 주문입니다"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":f"{order.product_name}은 이미 취소된 주문입니다", "status":order.status}, status=status.HTTP_400_BAD_REQUEST)
 
         elif order.status != 3 or payment.status != 3 or order.status != 4 or payment.status != 4:
 
