@@ -1,0 +1,314 @@
+﻿[
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_ECOBAG_WHITE_original",
+            "price": "28,000",
+            "image": "media/goods/STONECOFFEE_ECOBAG_WHITE.jpg",
+            "content": "계절에 구애없이 메인백 또는 서브백으로 다양하게 활용할 수 있는 천가방입니다!\n스톤커피의 로고가 하단에 프린팅되어있습니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_ECOBAG_WHITE",
+            "price": "28,000",
+            "image": "media/goods/STONECOFFEE_ECOBAG_WHITE1.jpg",
+            "content": "계절에 구애없이 메인백 또는 서브백으로 다양하게 활용할 수 있는 천가방입니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_ECOBAG_BLACK",
+            "price": "28,000",
+            "image": "media/goods/STONECOFFEE_ECOBAG_BLACK1.jpg",
+            "content": "계절에 구애없이 메인백 또는 서브백으로 다양하게 활용할 수 있는 천가방입니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_iPHONECASE",
+            "price": "32,000",
+            "image": "media/goods/STONECOFFEE_PHONECASE.jpg",
+            "content": "아이폰 실리콘 소프트 케이스 입니다!\n총 6가지 색상이 준비되어 있습니다!\n기종 확인 후 주문 부탁드립니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_MINI_TUMBLER__white_logo",
+            "price": "35,000",
+            "image": "media/goods/STONECOFFEE_MINI_TUMBLER_2.jpg",
+            "content": "보온·보냉 기능이 있는 미니 텀블러입니다!\n용량을 확인해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_MINI_TUMBLER_black_logo",
+            "price": "35,000",
+            "image": "media/goods/STONECOFFEE_MINI_TUMBLER_1.jpg",
+            "content": "보온·보냉 기능이 있는 미니 텀블러입니다!\n용량을 확인해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_MINI_TUMBLER_white",
+            "price": "35,000",
+            "image": "media/goods/STONECOFFEE_MINI_TUMBLER.jpg",
+            "content": "보온·보냉 기능이 있는 미니 텀블러입니다!\n용량을 확인해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_TUMBLER_pink_logo",
+            "price": "35,000",
+            "image": "media/goods/STONECOFFEE_TUMBLER.jpg",
+            "content": "보온·보냉 기능이 있는 텀블러입니다!\n용량을 확인해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_ECOBAG_new_white",
+            "price": "25,000",
+            "image": "media/goods/STONECOFFEE_ECOBAG_WHITE2.jpg",
+            "content": "새로운 로고로 제작된 스톤커피의 새로운 에코백입니다!\n사이즈는 기존 상품과 동일합니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_ECOBAG_new_black",
+            "price": "25,000",
+            "image": "media/goods/STONECOFFEE_ECOBAG_BLACK.jpg",
+            "content": "새로운 로고로 제작된 스톤커피의 새로운 에코백입니다!\n사이즈는 기존 상품과 동일합니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_T-SHIRTS_navy",
+            "price": "32,000",
+            "image": "media/goods/STONECOFFEE_T-SHIRTS_NAVY.jpg",
+            "content": "스톤커피 자체제작 로고가 돋보이는 20수 무지 반팔 티셔츠 기본 라운드 면티입니다! 여름시즌에만 한정 판매하는 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_T-SHIRTS_grey",
+            "price": "32,000",
+            "image": "media/goods/STONECOFFEE_T-SHIRTS_GREY.jpg",
+            "content": "스톤커피 자체제작 로고가 돋보이는 20수 무지 반팔 티셔츠 기본 라운드 면티입니다! 여름시즌에만 한정 판매하는 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_T-SHIRTS_white",
+            "price": "32,000",
+            "image": "media/goods/STONECOFFEE_T-SHIRTS.jpg",
+            "content": "스톤커피 자체제작 로고가 돋보이는 20수 무지 반팔 티셔츠 기본 라운드 면티입니다! 여름시즌에만 한정 판매하는 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_TUMBLER__new_logo",
+            "price": "36,000",
+            "image": "media/goods/STONECOFFEE_TUMBLER_1.jpg",
+            "content": "스톤커피의 새로운 로고가 돋보이는 텀블러입니다!\n용량은 기존 상품과 동일합니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_skyblue",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK1.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_beige",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK2.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_babypink",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK3.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_coldblack",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK4.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_white",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_charcoal",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK5.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_GRIPTOK_babygreen",
+            "price": "33,000",
+            "image": "media/goods/STONECOFFEE_GRIPTOK6.jpg",
+            "content": "그립톡 + 하드케이스로 구성된 상품입니다! \n갤럭시 기종은 준비중인 점 양해부탁드립니다 !",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_MUG_white",
+            "price": "15,000",
+            "image": "media/goods/STONECOFFEEMUG.jpg",
+            "content": "스톤커피의 기존 로고로 제작된 머그컵입니다! \n용량을 참고해서 주문 부탁드립니다!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_HOODIE_navy",
+            "price": "58,000",
+            "image": "media/goods/STONECOFFEE_HOODIE_NAVY.jpg",
+            "content": "스톤커피의 자체제작 후드입니다!\n가을겨울 시즌 한정 상품인 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_HOODIE_black",
+            "price": "58,000",
+            "image": "media/goods/STONECOFFEE_HOODIE_BLACK.jpg",
+            "content": "스톤커피의 자체제작 후드입니다!\n가을겨울 시즌 한정 상품인 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_HOODIE_charcoal",
+            "price": "58,000",
+            "image": "media/goods/STONECOFFEE_HOODIE_CHARCOAL.jpg",
+            "content": "스톤커피의 자체제작 후드입니다!\n가을겨울 시즌 한정 상품인 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    },
+    {
+        "fields": {
+            "category": 2,
+            "product_name": "STONECOFFEE_HOODIE_grey",
+            "price": "58,000",
+            "image": "media/goods/STONECOFFEE_HOODIE.jpg",
+            "content": "스톤커피의 자체제작 후드입니다!\n가을겨울 시즌 한정 상품인 점 참고해주세요!",
+            "like": [],
+            "created_at": "2022-12-18"
+        },
+        "model": "product.product"
+    }
+]
