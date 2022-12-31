@@ -41,8 +41,7 @@ class ChangeUserPassword(APIView):
     def put(self, request):
         user = UserModel.objects.get(id=request.user.id)
         serializer = ChangeUserPasswordSerializer(user, data=request.data)
-
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"message":"비밀번호가 변경 되었습니다."}, status=status.HTTP_200_OK)
         else:

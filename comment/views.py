@@ -13,7 +13,6 @@ class CommentCreateView(APIView):
     permission_classes=[permissions.IsAuthenticated]
     def post(self, request):
         buy_user = len(Order.objects.filter(user_id=request.user.id))
-        print(buy_user)
         if buy_user != 0:
             product_id = request.GET.get('product_id')
             comment = Comment.objects.filter(Q(product_id=product_id)&Q(user_id=request.user.id))
