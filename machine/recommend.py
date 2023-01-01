@@ -39,9 +39,7 @@ def save_dataframe():
     title_table = pd.pivot_table(df, index = ['name_ko'])
     item_based_collab = euclidean_distances(title_table, title_table)
     item_based_collab = pd.DataFrame(item_based_collab, index=title_table.index, columns=title_table.index)
-    
     item_based_collab.to_csv("machine/datatable.csv", encoding='UTF-8')
-    
 
 def recommend_products(name):
 
