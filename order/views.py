@@ -19,8 +19,8 @@ class UserOrderCreateView(APIView):
         cart_id = request.GET.get("cart_id", None).split(",")
         total_price = 0
         payment_data = dict()
-        for cart in cart_id:
-            product = Cart.objects.get(id=cart)
+        for id in cart_id:
+            product = Cart.objects.get(id=id)
             product = model_to_dict(product)
             total_price += product["price"] * product["count"]
             payment_data["total_price"] = total_price
@@ -29,10 +29,10 @@ class UserOrderCreateView(APIView):
         if payment_serializer.is_valid():
             payment = payment_serializer.save()
         else:
-            return Response({"error":payment_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":payment_serializer.errors}, status=status.HTTP_402_PAYMENT_REQUIRED)
 
-        for cart in cart_id:
-            cart = Cart.objects.get(id=cart)
+        for id in cart_id:
+            cart = Cart.objects.get(id=id)
             product = model_to_dict(cart)
             user_data = request.data
             data = payment_serializer.data
@@ -40,7 +40,7 @@ class UserOrderCreateView(APIView):
             product["product_name"] = cart.product.product_name
             product["order_price"] = product.pop("price")
             for data in user_data:
-                product[f"{data}"] = user_data[f"{data}"]
+                    product[f"{data}"] = user_data[f"{data}"]
             order_serializer = UserOrderCreateSerializer(data=product)
             if order_serializer.is_valid():
                 order_serializer.save(user_name=request.user, product_id=product["product"])
@@ -78,7 +78,6 @@ class OrderCancel(APIView):
         }
         token_json = requests.post(payment_token_uri, headers=token_headers, data=request_parameter).json()
         access_token = token_json['response']['access_token']
-
         cancel_order_id = request.GET.get("order_id", None)
         order = get_object_or_404(Order, id=int(cancel_order_id))
         order_product_price = order.order_price
@@ -88,16 +87,13 @@ class OrderCancel(APIView):
         payment = get_object_or_404(Payment, id=payment_id)
         payment_price = payment.total_price
         payment_price = int(payment_price.replace(",",""))
+        order_code = getattr(order, "order_code")
 
-        if order.status == 3 or payment.status == 3 or order.status == 4 or payment.status == 4:
-            return Response({"message":f"{order.product_name}은 이미 취소된 주문입니다", "status":order.status}, status=status.HTTP_400_BAD_REQUEST)
-
-        elif order.status != 3 or payment.status != 3 or order.status != 4 or payment.status != 4:
+        if order.status != 3 or payment.status != 3 or order.status != 4 or payment.status != 4:
 
             if order_price == payment_price:  # 전체취소
                 setattr(payment, "status", 4)
                 setattr(order, "status", 4)
-                order_code = getattr(order, "order_code")
                 payment.save()
                 order.save()
                 send_cancel_request(order_code, payment.total_price, access_token)
