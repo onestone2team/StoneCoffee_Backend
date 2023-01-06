@@ -23,6 +23,7 @@ class Product(models.Model):
     like=models.ManyToManyField(UserModel, related_name = 'like', blank=True, through='LikeTage')
     image=models.ImageField(upload_to='product_image')
     created_at = models.DateField(auto_now_add=True)
+    recommend_product = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.product_name

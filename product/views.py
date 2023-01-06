@@ -96,10 +96,11 @@ class ProductView(APIView):
         serializer = ProductDetailSerializer(product)
             # 추천 상품 불러오기
         if product.category_id == 1:
+            rec_product_id_list = product.recommend_product
+            rec_product_id = rec_product_id_list.split("|")
             rec_data = {}
-            rec_products = recommend_products(product.product_name)
-            for i,name in enumerate(rec_products):
-                product = get_object_or_404(Product, product_name=name)
+            for i,id in enumerate(rec_product_id):
+                product = get_object_or_404(Product, id=id)
                 rec_serializer = ViewProductSerializer(product)
                 rec_data[i] = rec_serializer.data
             return Response({"products":serializer.data, "recommend":rec_data}, status=status.HTTP_200_OK)
@@ -112,6 +113,27 @@ class ProductView(APIView):
                 rec_serializer = ViewProductSerializer(product)
                 rec_etc_data[i] = rec_serializer.data
             return Response({"products":serializer.data,"recommend":rec_etc_data}, status=status.HTTP_200_OK)
+
+class ProductRecomendSave(APIView):
+    permission_classes = [permissions.IsAdminUser]
+    def post(self, request):
+        product_list = Product.objects.all()
+        for pro in product_list:
+            product = get_object_or_404(Product, id=pro.id)
+                # 추천 상품 불러오기
+            if product.category_id == 1:
+                rec_product_list = recommend_products(product.product_name)
+                rec_products = []
+                for name in rec_product_list:
+                    rec_product = get_object_or_404(Product, product_name=name)
+                    rec_products.append(str(rec_product.id))
+                rec_products = '|'.join(rec_products)
+                setattr(product,"recommend_product",rec_products)
+                product.save()
+            else :
+                pass
+        return Response({"message":"추천상품 등록 완료"}, status=status.HTTP_200_OK)
+
 
     def put(self, request):
         product_id = int(request.GET.get('product_id', None))
@@ -183,6 +205,7 @@ class ProductCartList(APIView):
             return Response({"message":"해당 물품은 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
 class ProductSave(APIView):
+    permission_classes = [permissions.IsAdminUser]
     def get(self, request):
         products = Product.objects.all()
         id = []
