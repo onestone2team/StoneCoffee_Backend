@@ -30,12 +30,9 @@ class SignUpView(APIView):
 class UserData(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
-        user_data = get_object_or_404(UserModel, request.user)
-        serializer = PaymentuserSerializer(data=user_data)
-        if serializer.is_vaild():
-            return Response({"message":"회원의 정보입니다.", "data":f"{serializer.data}"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"message":"잘못된 회원정보 입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        user_data = get_object_or_404(UserModel, profilename=request.user)
+        serializer = PaymentuserSerializer(user_data)
+        return Response({"message":"회원의 정보입니다.", "data":f"{serializer.data}"}, status=status.HTTP_200_OK)
 
 kakao_login_uri = "https://kauth.kakao.com/oauth/authorize"
 kakao_token_uri = "https://kauth.kakao.com/oauth/token"
