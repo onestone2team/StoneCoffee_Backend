@@ -1,10 +1,12 @@
 from django.shortcuts import redirect
+from rest_framework import permissions
 from .models import UserModel
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer , KakaoTokenObtainSerializer
+from user.serializers import MyTokenObtainPairSerializer, SignUpSerializer , KakaoTokenObtainSerializer, PaymentuserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.generics import get_object_or_404
 from main.settings import KAKAO_CONFIG
 import os
 import time
@@ -25,10 +27,16 @@ class SignUpView(APIView):
             return Response({"message":"회원가입이 실패했습니다!"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserData(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        user_data = get_object_or_404(UserModel, profilename=request.user)
+        serializer = PaymentuserSerializer(user_data)
+        return Response({"message":"회원의 정보입니다.", "data":f"{serializer.data}"}, status=status.HTTP_200_OK)
+
 kakao_login_uri = "https://kauth.kakao.com/oauth/authorize"
 kakao_token_uri = "https://kauth.kakao.com/oauth/token"
 user_uri = "https://kapi.kakao.com/v2/user/me"
-
 class KakaoView(APIView):
 
     def get(self, request):

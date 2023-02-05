@@ -62,7 +62,6 @@ def send_cancel_request(order_code, order_price, access_token):
             'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
             'Authorization' : access_token
         }
-        token_json = requests.post(payment_cancel_uri, headers=payment_headers, data=payment_body).json()
 
 class OrderCancel(APIView):
 
