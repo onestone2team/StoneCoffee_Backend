@@ -9,5 +9,4 @@ class ChangeUserDataAPITestCase(APITestCase):
         response = self.client.put(
             path=reverse("change_user_info_view"),
             HTTP_AUTHORIZATION=f"Bearer {access_token}",
-            
     )

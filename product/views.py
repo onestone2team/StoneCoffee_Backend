@@ -51,7 +51,6 @@ class MainTypeView(APIView):
     def get(self, request):
         category = int(request.GET.get('category_id', None))
         sort = request.GET.get('sort', None)
-        print(sort)
 
         if category == 1:
             products = Product.objects.filter(category=category).order_by("-created_at")
