@@ -11,9 +11,9 @@ class UserRegisterationAPIViewTestCase(APITestCase):
         url = reverse("signup_view")
         user_data = {
             "email": "z9x80123@gmail.com",
-            "password": "audgus1121!",
-            "password_check": "audgus1121!",
-            "profilename": "audgus"
+            "password": "a123456!",
+            "password_check": "a123456!",
+            "profilename": "a123456"
         }
         response = self.client.post(url,user_data)
         self.assertEqual(response.status_code, 201)
@@ -22,10 +22,10 @@ class UserLoginAPIViewTestCase(APITestCase):
     def setUp(self):
         self.data = {
             "email": "z9x80123@gmail.com",
-            "password": "audgus1121!"
+            "password": "a123456!"
         }
         ## models.py의 create_user를 사용! ( override를 했기 때문! )
-        self.user = UserModel.objects.create_user("z9x80123@gmail.com", "audgus", "audgus1121!")
+        self.user = UserModel.objects.create_user("z9x80123@gmail.com", "a123456", "a123456!")
 
     def test_login(self):
         response = self.client.post(reverse("login_view"),self.data)

@@ -42,8 +42,6 @@ class MainpageView(APIView):
                     recommend.append(survey_data.data)
             else :
                 pass
-
-
         return Response({"data":data, "recommend":recommend}, status=status.HTTP_201_CREATED)
 
 class MainTypeView(APIView):

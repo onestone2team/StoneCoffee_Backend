@@ -44,7 +44,6 @@ class KakaoView(APIView):
         client_key = KAKAO_CONFIG["KAKAO_REST_API_KEY"]
         redirect_uri = KAKAO_CONFIG["KAKAO_REDIRECT_URI"]
         uri = f"{kakao_login_uri}?client_id={client_key}&redirect_uri={redirect_uri}&response_type=code"
-
         return redirect(uri)
 
 import requests
